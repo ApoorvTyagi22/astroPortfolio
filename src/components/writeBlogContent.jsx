@@ -2,6 +2,7 @@ import React from "react";
 import Layout from "./Layout";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
+import rehypeRaw from "rehype-raw";
 import remarkMath from "remark-math";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
@@ -61,13 +62,10 @@ const WriteBlogContent = ({ frontmatter, content, url = "" }) => {
                         const image = node.children[0];
                         return (
                           <div className="my-8">
-                            <Image
+                            <img
                               src={image.properties.src}
                               alt={image.properties.alt || ""}
-                              width={1200}
-                              height={675}
-                              className="rounded-lg shadow-md"
-                              style={{ width: "100%", height: "auto" }}
+                              className="rounded-lg shadow-md w-full h-auto"
                             />
                             {image.properties.alt && (
                               <p className="text-center text-gray-600 mt-2">

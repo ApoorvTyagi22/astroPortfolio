@@ -1,0 +1,219 @@
+---
+// src/pages/projects.astro
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.jsx';
+import Footer from '../components/Footer.jsx';
+import AnimatedText from '../components/AnimatedText.jsx';
+import { GithubIcon } from '../components/icons.jsx';
+import { Image } from 'astro:assets';
+
+// Import project images (commented out to match original)
+// import ecomerceBackend from '../../public/Figures/ecommerceBackend/backendDesignArchitecture.jpg';
+// import digitClassification from '../../public/Figures/digitClassifcaitonMLP/digitClassificationMLPLoss.jpeg';
+// import visionTransformer from '../../public/Figures/ViTCIFAR10/LossFunction.jpeg';
+// import housingPrice from '../../public/Figures/regressionProject/priceDistribution.png';
+// import javaWebApp from '../../public/Figures/javaWebApp/flowchart.jpg';
+---
+
+<Layout title="Apoorv Tyagi | Projects" description="Projects showcasing web development and machine learning expertise">
+  
+  <NavBar currentPath="/projects" client:load />
+  
+  <!-- Projects Section with Background Design -->
+  <main class="flex items-center text-dark w-full min-h-screen dark:text-light bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMSI+PC9jaXJjbGU+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+    
+    <div class="w-full relative z-10 py-24">
+      <div class="pt-16 w-full px-32 xl:px-24 lg:px-16 md:px-12 sm:px-8">
+        <AnimatedText
+          text="Imagination Trumps Knowledge!"
+          className="mb-16 lg:!text-7xl sm:mb-8 sm:!text-6xl xs:!text-4xl text-center text-slate-800 dark:text-slate-100"
+          client:visible
+        />
+
+        <div class="grid grid-cols-12 gap-24 gap-y-20 xl:gap-x-16 lg:gap-x-8 md:gap-y-24 sm:gap-x-0">
+        
+        <!-- E-commerce Backend Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/ecommerceBackend" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">BackEnd of An E-Commerce Website</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A robust backend for an e-commerce website using Node.js, Express, and MongoDB. It manages user authentication, product inventory, order processing, and etc. The backend ensures efficient data handling, supporting seamless e-commerce operations. The code is divided into 4 main modules: Models, Routes, Controllers, and Middleware.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/BackEndProject.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/ecommerceBackend" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Digit Classification MLP Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/digitClassification-MLP" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">Multi-Layer Perceptron for Digit Classification</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A multi-layer perceptron (MLP) model for digit classification using the MNIST dataset. The model is trained using the backpropagation algorithm and achieves high accuracy in classifying handwritten digits. The project demonstrates the implementation of a neural network for image recognition tasks using pytorch.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/DigitRecoMLP.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/digitClassification-MLP" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Vision Transformer Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/VisionTransformer" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">Vision Transformer for CIFAR-10 Classification</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A vision transformer model for image classification using the CIFAR-10 dataset. The model is based on the transformer architecture (From the 'Attention is all you need' paper) and achieves high accuracy in classifying images into different classes. The project is developed using pytorch.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/ViTCIFAR10.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/VisionTransformer" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Housing Price Prediction Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/housingPriceRegression" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">Housing Price Prediction using Multiple Regression Models</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                This project deploys and trains a continuos pipeline using ZenML(an mlops framework) to predict the housing prices. The pipeline includes data ingestion, preprocessing, feature engineering, model training, and evaluation. The project demonstrates the implementation of multiple regression models for predicting housing prices.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/HousingPriceRegression.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/housingPriceRegression" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Java Web App Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/javaWebApp" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">Java Web application for Customer Management</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A Java web application for managing customer information using MySQL. The application allows users to perform CRUD operations on customer data, including adding, updating, and deleting customer records. The project demonstrates the development of a web application using Java technologies. The project is developed using Java, JSP, Servlets, and MySQL. The project was built by following the entire software development life cycle.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/JavaWebApp.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/javaWebApp" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Tetris Game Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects/tetris" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">Tetris Game built using javafx</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A Tetris game developed using JavaFX. The game features a graphical user interface with different levels of difficulty and scoring. The project demonstrates the implementation of a classic arcade game using Java technologies. The project is developed using Java, JavaFX, and CSS. It is built using maven.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/Tetris.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects/tetris" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <!-- Portfolio Project -->
+        <div class="col-span-10 col-start-2 my-4">
+          <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-8 rounded-br-2xl lg:p-8 xs:rounded-2xl xs:rounded-br-3xl xs:p-4">
+            <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+            
+            <div class="w-full flex flex-col items-start justify-between pt-6">
+              <span class="text-blue-600 dark:text-blue-400 font-medium text-xl xs:text-base">Project</span>
+              <a href="/projects" class="hover:underline underline-offset-2">
+                <h2 class="my-2 w-full text-left text-4xl font-bold text-slate-800 dark:text-slate-100 sm:text-sm">This webPortfolio built using Astro, TailwindCSS, and React</h2>
+              </a>
+              <p class="my-2 font-medium text-slate-700 dark:text-slate-300 sm:text-sm">
+                A web portfolio developed using Astro, TailwindCSS, and React. The portfolio showcases projects, blog posts, and contact information. The project demonstrates the implementation of a responsive web portfolio using modern web technologies. There are animations and transitions to make the website more interactive.
+              </p>
+              <div class="mt-2 flex items-center">
+                <a href="https://github.com/ApoorvTyagi22/astroPortfolio.git" target="_blank" class="w-10">
+                  <GithubIcon className="w-full h-auto text-slate-800 dark:text-slate-300" />
+                </a>
+                <a href="/projects" class="ml-4 rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-6 text-lg font-semibold sm:px-4 sm:text-base hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                  View Project
+                </a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <Footer client:load />
+  
+</Layout>

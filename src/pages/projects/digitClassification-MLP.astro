@@ -1,0 +1,31 @@
+---
+// src/pages/projects/digitClassification-MLP.astro
+import Layout from '../../layouts/Layout.astro';
+import WriteBlogContent from '../../components/writeBlogContent.jsx';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import matter from 'gray-matter';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+let frontmatter: { title?: string; description?: string; [key: string]: any } = {};
+let content = '';
+
+try {
+  const filePath = join(__dirname, '../../../public/markdownFiles/projectDescription/digitClassification-MLP.md');
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const { data, content: markdownContent } = matter(fileContents);
+  frontmatter = data;
+  content = markdownContent;
+} catch (error) {
+  console.error('Error reading markdown file:', error);
+  content = 'Error loading content';
+  frontmatter = { title: 'Digit Classification MLP Project' };
+}
+---
+
+<Layout title={frontmatter.title || 'Digit Classification MLP Project'} description={frontmatter.description || 'Digit Classification MLP Project Details'}>
+  <WriteBlogContent frontmatter={frontmatter} content={content} client:load />
+</Layout>
