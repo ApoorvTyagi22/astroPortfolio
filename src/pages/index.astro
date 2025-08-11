@@ -2,7 +2,7 @@
 // src/pages/index.astro
 import Layout from '../layouts/Layout.astro';
 import NavBar from '../components/NavBar.jsx';
-import AnimatedText from '../components/AnimatedText.jsx';
+import TypingAnimation from '../components/TypingAnimation.jsx';
 import Skills from '../components/Skills.jsx';
 // Note: In Astro, we use regular <img> and <a> tags.
 // The Image component is built-in for optimization.
@@ -21,9 +21,8 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
     <div class="pt-0 md:pt-16 sm:pt-8 w-full relative z-10"> 
       <div class="flex items-center justify-center w-full px-32 xl:px-24 lg:px-16 md:px-12 sm:px-8">
         <div class="w-full flex flex-col items-center self-center text-center">
-          <AnimatedText
-            text="Designing Tomorrow's Web, Today"
-            className="!text-6xl !text-center xl:!text-5xl lg:!text-center lg:!text-6xl md:!text-5xl sm:!text-3xl text-slate-800 dark:text-slate-100"
+          <TypingAnimation
+            className="mb-8"
             client:visible
           />
           <p class="my-4 text-base font-medium md:text-sm sm:text-xs text-slate-700 dark:text-slate-300 max-w-2xl text-center">
@@ -60,11 +59,9 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
   <!-- Section 2: About Me & Skills -->
   <main class="flex w-full flex-col items-center justify-center dark:text-light bg-white dark:bg-slate-900 py-24">
     <div class="pt-16 w-full px-32 xl:px-24 lg:px-16 md:px-12 sm:px-8"> 
-      <AnimatedText
-        text="Passion Powers Purpose"
-        className="mb-16 lg:!text-7xl sm:!text-6xl xs:!text-4xl sm:mb-8 text-center text-slate-800 dark:text-slate-100"
-        client:visible
-      />
+      <h1 class="mb-16 lg:!text-7xl sm:!text-6xl xs:!text-4xl sm:mb-8 text-center text-slate-800 dark:text-slate-100 font-bold">
+        Passion Powers Purpose
+      </h1>
       <div class="grid w-full grid-cols-8 gap-16 sm:gap-8">
         <div class="col-span-3 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-8 xl:col-span-4 md:order-1 md:col-span-8 shadow-xl">
           <div class="absolute top-0 -right-3 -z-10 w-[102%] h-[103%] rounded-[2rem] bg-blue-200 dark:bg-blue-900"></div>
