@@ -13,7 +13,7 @@ const CustomLink = ({ href, title, className = "", currentPath }) => {
         {title}
         <span
           className={`h-[2px] inline-block bg-primary absolute left-0 -bottom-0.5 
-          group-hover:w-full transition-[width] ease duration-300 
+          group-hover:w-full transition-[width] ease duration-300 text-white
           ${currentPath === href ? "w-full" : "w-0"}`} // Use currentPath prop
         >
           &nbsp;
@@ -88,9 +88,9 @@ const NavBar = ({ currentPath }) => {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      {/* Hamburger Menu Button */}
+      {/* Hamburger Menu Button - Only show on mobile */}
       <button
-        className="flex-col justify-center items-center hidden lg:flex"
+        className="flex-col justify-center items-center flex lg:hidden"
         onClick={handleToggle}
       >
         <span
@@ -110,8 +110,8 @@ const NavBar = ({ currentPath }) => {
         ></span>
       </button>
 
-      {/* Desktop Menu */}
-      <div className="w-full flex justify-between items-center lg:hidden">
+      {/* Desktop Menu - Show on desktop, hide on mobile */}
+      <div className="w-full justify-between items-center hidden lg:flex">
         <nav className="flex space-x-4">
           {/* Pass currentPath down to each link */}
           <CustomLink href="/" title="Home" currentPath={currentPath} />

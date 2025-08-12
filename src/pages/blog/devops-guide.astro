@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.jsx';
+import Footer from '../../components/Footer.jsx';
+import BlogContent from '../../components/BlogContent.jsx';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+// Read the DevOps article markdown file
+const filePath = path.join(process.cwd(), 'public/markdownFiles/articles', 'devOpsArticle.md');
+const fileContents = fs.readFileSync(filePath, 'utf8');
+const { data: frontmatter, content } = matter(fileContents);
+
+// Add additional frontmatter data
+frontmatter.category = 'DevOps';
+frontmatter.readTime = '8 min read';
+---
+
+<Layout title={frontmatter.title} description={frontmatter.subtitle}>
+  <NavBar currentPath="/blog" client:load />
+  
+  <BlogContent frontmatter={frontmatter} content={content} client:load />
+  
+  <Footer />
+</Layout>

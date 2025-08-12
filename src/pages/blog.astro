@@ -1,0 +1,207 @@
+---
+import Layout from '../layouts/Layout.astro';
+import NavBar from '../components/NavBar.jsx';
+import Footer from '../components/Footer.jsx';
+import AnimatedText from '../components/AnimatedText.jsx';
+import { getAllArticles, getSlugFromFilename } from '../utils/blog.js';
+
+// Get all articles dynamically
+const allArticles = getAllArticles();
+
+// Transform articles data for display
+const articles = allArticles.map(article => ({
+  title: article.frontmatter.title,
+  summary: article.frontmatter.subtitle || 'Click to read more...',
+  slug: getSlugFromFilename(article.filename),
+  date: article.frontmatter.date || 'Recent',
+  readTime: article.slug === 'devOpsArticle' ? '8 min read' : '12 min read',
+  category: article.slug === 'devOpsArticle' ? 'DevOps' : 'Computer Science',
+  featured: true
+}));
+
+const upcomingArticles = [
+  {
+    title: "Advanced React Patterns and Best Practices",
+    date: "Coming Soon",
+    category: "React"
+  },
+  {
+    title: "Machine Learning in JavaScript",
+    date: "Coming Soon", 
+    category: "AI/ML"
+  },
+  {
+    title: "Building Scalable APIs with Node.js",
+    date: "Coming Soon",
+    category: "Backend"
+  }
+];
+---
+
+<Layout title="Blog - Apoorv Tyagi" description="Explore articles on web development, DevOps, computer science, and more.">
+  <NavBar currentPath="/blog" client:load />
+  
+  <!-- Background Gradient - Fixed to cover full page -->
+  <div class="fixed inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 -z-10"></div>
+  
+  <!-- Main content with proper top spacing to avoid navbar overlap -->
+  <main class="min-h-screen pt-24 pb-16 relative z-10">
+    <!-- Hero Section -->
+    <section class="max-w-7xl mx-auto px-8 py-16">
+      <div class="text-center mb-16">
+        <AnimatedText 
+          text="Words Can Change The World!" 
+          className="!text-4xl !sm:text-5xl !md:text-6xl !lg:text-7xl !xl:text-8xl !leading-tight text-center mb-6 text-gray-800 dark:text-gray-100"
+          client:load
+        />
+        <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
+          Explore my thoughts on technology, development, and innovation.
+        </p>
+      </div>
+
+      <!-- Featured Articles -->
+      <section class="mb-20">
+        <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-12 text-center">
+          Featured Articles
+        </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {articles.filter(article => article.featured).map((article, index) => (
+            <article class="group bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-xl border border-gray-200 dark:border-gray-700 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 cursor-pointer">
+              <!-- Article Header -->
+              <div class="p-8">
+                <div class="flex items-center justify-between mb-4">
+                  <span class="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-3 py-1 rounded-full text-sm font-medium">
+                    {article.category}
+                  </span>
+                  <span class="text-gray-500 dark:text-gray-400 text-sm">
+                    {article.readTime}
+                  </span>
+                </div>
+                
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                  {article.title}
+                </h3>
+                
+                <p class="text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">
+                  {article.summary}
+                </p>
+                
+                <div class="flex items-center justify-between">
+                  <span class="text-sm text-gray-500 dark:text-gray-400">
+                    {article.date}
+                  </span>
+                  <a 
+                    href={`/blog/${article.slug}`}
+                    class="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-all duration-300 bg-blue-50 dark:bg-blue-900/20 px-4 py-2 rounded-lg hover:bg-blue-100 dark:hover:bg-blue-900/40"
+                  >
+                    Read Article
+                    <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <!-- All Articles Section -->
+      <section>
+        <h2 class="text-4xl font-bold text-gray-800 dark:text-gray-100 mb-12 text-center">
+          All Articles
+        </h2>
+        
+        <!-- Published Articles -->
+        <div class="space-y-6 mb-12">
+          {articles.map((article, index) => (
+            <article class="group bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-gray-700 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div class="flex flex-col md:flex-row md:items-center justify-between">
+                <div class="flex-1">
+                  <div class="flex items-center space-x-4 mb-3">
+                    <span class="bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-3 py-1 rounded-full text-sm font-medium">
+                      {article.category}
+                    </span>
+                    <span class="text-gray-500 dark:text-gray-400 text-sm">
+                      {article.date}
+                    </span>
+                  </div>
+                  
+                  <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 mb-2 group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    <a href={`/blog/${article.slug}`}>
+                      {article.title}
+                    </a>
+                  </h3>
+                  
+                  <p class="text-gray-600 dark:text-gray-400 text-sm">
+                    {article.summary.slice(0, 120)}...
+                  </p>
+                </div>
+                
+                <div class="mt-4 md:mt-0 md:ml-6">
+                  <a 
+                    href={`/blog/${article.slug}`}
+                    class="inline-flex items-center bg-blue-600 dark:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-700 dark:hover:bg-blue-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 group"
+                  >
+                    Read More
+                    <svg class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                    </svg>
+                  </a>
+                </div>
+              </div>
+            </article>
+          ))}
+        </div>
+
+        <!-- Coming Soon Articles -->
+        <div class="bg-gray-100 dark:bg-gray-800 rounded-2xl p-8">
+          <h3 class="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-6 text-center">
+            Coming Soon
+          </h3>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {upcomingArticles.map((article, index) => (
+              <div class="bg-white dark:bg-gray-700 rounded-xl p-6 text-center border-2 border-dashed border-gray-300 dark:border-gray-600">
+                <div class="mb-4">
+                  <span class="bg-yellow-100 dark:bg-yellow-900 text-yellow-800 dark:text-yellow-200 px-3 py-1 rounded-full text-sm font-medium">
+                    {article.category}
+                  </span>
+                </div>
+                <h4 class="text-lg font-semibold text-gray-800 dark:text-gray-100 mb-2">
+                  {article.title}
+                </h4>
+                <p class="text-gray-500 dark:text-gray-400 text-sm">
+                  {article.date}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<style>
+  /* Additional custom styles for blog */
+  body {
+    min-height: 100vh;
+  }
+  
+  /* Ensure background covers full page */
+  html, body {
+    overflow-x: hidden;
+  }
+  
+  /* Enhanced hover effects */
+  .group:hover .group-hover\:translate-x-1 {
+    transform: translateX(0.25rem);
+  }
+  
+  /* Smooth transitions for all interactive elements */
+  a, button {
+    transition: all 0.3s ease;
+  }
+</style>
