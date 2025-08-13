@@ -5,9 +5,16 @@ const TypingAnimation = ({ className = "" }) => {
   const [showCursor, setShowCursor] = useState(true);
   const [typedText, setTypedText] = useState("");
   const [hasFinished, setHasFinished] = useState(false);
+  const [isTyping, setIsTyping] = useState(true);
+  const [command1Text, setCommand1Text] = useState("");
+  const [command2Text, setCommand2Text] = useState("");
+  const [showCommand1, setShowCommand1] = useState(false);
+  const [showCommand2, setShowCommand2] = useState(false);
 
   const codeText = 'console.log("Hello World");';
   const outputText = "Hello World";
+  const command1 = "sudo useradd -m visitor";
+  const command2 = "sudo su - visitor";
   const typingSpeed = 120; // milliseconds per character
   const pauseTime = 1000; // pause after typing code before showing output
   const cursorBlinkSpeed = 530; // milliseconds
@@ -15,21 +22,59 @@ const TypingAnimation = ({ className = "" }) => {
   useEffect(() => {
     // Step 0: Type the code
     if (currentStep === 0 && typedText.length < codeText.length) {
-      const timeout = setTimeout(() => {
+      const t = setTimeout(() => {
         setTypedText((prev) => prev + codeText[typedText.length]);
+        if (typedText.length + 1 === codeText.length) {
+          setIsTyping(false); // hide code cursor immediately
+          setTimeout(() => {
+            setCurrentStep(1);
+            setHasFinished(true); // show output + cursor after pause
+          }, pauseTime);
+        }
+      }, typingSpeed);
+      return () => clearTimeout(t);
+    }
+
+    // Step 1: After showing output, pause then start first command
+    if (currentStep === 1 && hasFinished) {
+      const timeout = setTimeout(() => {
+        setCurrentStep(2);
+        setShowCommand1(true);
+      }, pauseTime * 1.5);
+      return () => clearTimeout(timeout);
+    }
+
+    // Step 2: Type first command
+    if (currentStep === 2 && command1Text.length < command1.length) {
+      const timeout = setTimeout(() => {
+        setCommand1Text((prev) => prev + command1[command1Text.length]);
+        if (command1Text.length + 1 === command1.length) {
+          setTimeout(() => {
+            setCurrentStep(3);
+            setShowCommand2(true);
+          }, pauseTime);
+        }
       }, typingSpeed);
       return () => clearTimeout(timeout);
     }
 
-    // Step 1: Pause after typing, then show output
-    if (currentStep === 0 && typedText.length === codeText.length) {
+    // Step 3: Type second command
+    if (currentStep === 3 && command2Text.length < command2.length) {
       const timeout = setTimeout(() => {
-        setCurrentStep(1);
-        setHasFinished(true);
-      }, pauseTime);
+        setCommand2Text((prev) => prev + command2[command2Text.length]);
+      }, typingSpeed);
       return () => clearTimeout(timeout);
     }
-  }, [currentStep, typedText, codeText]);
+  }, [
+    currentStep,
+    typedText,
+    codeText,
+    command1Text,
+    command1,
+    command2Text,
+    command2,
+    hasFinished,
+  ]);
 
   useEffect(() => {
     // Cursor blinking effect
@@ -92,10 +137,8 @@ const TypingAnimation = ({ className = "" }) => {
           {typedText.length >= codeText.length && (
             <span className="text-gray-300">);</span>
           )}
-          {(!hasFinished || currentStep === 0) && showCursor && (
-            <span className="text-green-400 bg-green-400 ml-1 animate-pulse inline-block w-0.5 h-8">
-              |
-            </span>
+          {isTyping && showCursor && (
+            <span className="text-green-400 bg-green-400 ml-1 animate-pulse inline-block w-0.5 h-8"></span>
           )}
         </div>
 
@@ -105,10 +148,48 @@ const TypingAnimation = ({ className = "" }) => {
             <div className="text-xl lg:text-2xl text-gray-300 animate-fade-in flex items-center space-x-2">
               <span className="text-gray-500">&gt;</span>
               <span className="text-white font-medium">{outputText}</span>
-              {showCursor && (
-                <span className="text-white bg-white ml-1 animate-pulse inline-block w-0.5 h-6">
-                  |
-                </span>
+              {currentStep === 1 && showCursor && (
+                <span className="text-white bg-white ml-1 animate-pulse inline-block w-0.5 h-6"></span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* First command */}
+        {showCommand1 && (
+          <div className="mt-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-green-400 text-sm font-semibold">
+                apoorv@portfolio
+              </span>
+              <span className="text-gray-500">:</span>
+              <span className="text-blue-400 text-sm font-semibold">~</span>
+              <span className="text-gray-500">$</span>
+            </div>
+            <div className="text-lg lg:text-xl text-white flex items-center">
+              <span>{command1Text}</span>
+              {currentStep === 2 && showCursor && (
+                <span className="text-white bg-white ml-1 animate-pulse inline-block w-0.5 h-6"></span>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* Second command */}
+        {showCommand2 && (
+          <div className="mt-4">
+            <div className="flex items-center space-x-2 mb-2">
+              <span className="text-green-400 text-sm font-semibold">
+                apoorv@portfolio
+              </span>
+              <span className="text-gray-500">:</span>
+              <span className="text-blue-400 text-sm font-semibold">~</span>
+              <span className="text-gray-500">$</span>
+            </div>
+            <div className="text-lg lg:text-xl text-white flex items-center">
+              <span>{command2Text}</span>
+              {currentStep === 3 && showCursor && (
+                <span className="text-white bg-white ml-1 animate-pulse inline-block w-0.5 h-6"></span>
               )}
             </div>
           </div>

@@ -3,18 +3,21 @@ import Logo from "./Logo"; // Assuming Logo.jsx is also updated
 import { LinkedInIcon, GithubIcon } from "./icons"; // Assuming these are standard React components
 import { motion, AnimatePresence } from "framer-motion";
 // Removed: import useThemeSwitcher from "./hooks/useThemeSwitcher";
-
-// --- CustomLink Component (Updated) ---
 const CustomLink = ({ href, title, className = "", currentPath }) => {
-  // Removed: const router = useRouter();
   return (
     <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
-      <a href={href} className={`${className} relative group`}>
+      <a
+        href={href}
+        className={`${className} relative group font-medium antialiased 
+                    text-zinc-900 dark:text-zinc-100 
+                    hover:text-zinc-950 dark:hover:text-white`}
+      >
         {title}
         <span
-          className={`h-[2px] inline-block bg-primary absolute left-0 -bottom-0.5 
-          group-hover:w-full transition-[width] ease duration-300 text-white
-          ${currentPath === href ? "w-full" : "w-0"}`} // Use currentPath prop
+          className={`h-[2px] inline-block absolute left-0 -bottom-0.5 
+                      bg-zinc-900 dark:bg-white 
+                      group-hover:w-full transition-[width] ease duration-300
+                      ${currentPath === href ? "w-full" : "w-0"}`}
         >
           &nbsp;
         </span>
@@ -41,14 +44,14 @@ const CustomMobileLink = ({
 
   return (
     <motion.button
-      className={`${className} relative group text-light dark:text-dark my-2`}
+      className={`${className} relative group text-light  my-2`}
       onClick={handleClick}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
       {title}
       <span
-        className={`h-[2px] inline-block bg-light absolute left-0 -bottom-0.5 
+        className={`h-[2px] inline-block bg-white absolute left-0 -bottom-0.5 
         group-hover:w-full transition-[width] ease duration-300 
         ${currentPath === href ? "w-full" : "w-0"} dark:bg-dark`} // Use currentPath prop
       >
