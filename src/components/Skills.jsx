@@ -106,16 +106,16 @@ const SkillCard = ({ category, skills, icon, color, delay }) => {
 const Skills = () => {
   const skillCategories = [
     {
-      category: "Frontend Development",
-      icon: "🎨",
-      color: "#3B82F6",
+      category: "Programming Languages",
+      icon: "💻",
+      color: "#8B5CF6",
       skills: [
-        { name: "React.js", color: "#61DAFB", level: 90 },
-        { name: "Next.js", color: "#000000", level: 85 },
-        { name: "HTML5", color: "#E34F26", level: 95 },
-        { name: "CSS3", color: "#1572B6", level: 90 },
-        { name: "Tailwind CSS", color: "#06B6D4", level: 85 },
-        { name: "JavaScript", color: "#F7DF1E", level: 88 },
+        { name: "JavaScript", color: "#F7DF1E", level: 91 },
+        { name: "Python", color: "#3776AB", level: 90 },
+        { name: "Java", color: "#007396", level: 80 },
+        { name: "TypeScript", color: "#3178C6", level: 75 },
+        { name: "SQL", color: "#336791", level: 75 },
+        { name: "C++", color: "#00599C", level: 83 },
       ],
     },
     {
@@ -132,16 +132,16 @@ const Skills = () => {
       ],
     },
     {
-      category: "Programming Languages",
-      icon: "💻",
-      color: "#8B5CF6",
+      category: "Frontend Development",
+      icon: "🎨",
+      color: "#3B82F6",
       skills: [
+        { name: "React.js", color: "#61DAFB", level: 90 },
+        { name: "Next.js", color: "#000000", level: 85 },
+        { name: "HTML5", color: "#E34F26", level: 95 },
+        { name: "CSS3", color: "#1572B6", level: 90 },
+        { name: "Tailwind CSS", color: "#06B6D4", level: 85 },
         { name: "JavaScript", color: "#F7DF1E", level: 88 },
-        { name: "Python", color: "#3776AB", level: 85 },
-        { name: "Java", color: "#007396", level: 80 },
-        { name: "TypeScript", color: "#3178C6", level: 75 },
-        { name: "SQL", color: "#336791", level: 70 },
-        { name: "C++", color: "#00599C", level: 68 },
       ],
     },
     {
@@ -151,8 +151,8 @@ const Skills = () => {
       skills: [
         { name: "Machine Learning", color: "#FF6F00", level: 82 },
         { name: "Deep Learning", color: "#FF4757", level: 78 },
-        { name: "TensorFlow", color: "#FF6F00", level: 75 },
-        { name: "PyTorch", color: "#EE4C2C", level: 70 },
+        { name: "TensorFlow", color: "#FF6F00", level: 85 },
+        { name: "PyTorch", color: "#EE4C2C", level: 85 },
         { name: "Data Analysis", color: "#2ECC71", level: 80 },
         { name: "Neural Networks", color: "#9B59B6", level: 75 },
       ],
@@ -242,15 +242,15 @@ const Skills = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div>
               <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                3+
+                ~1
               </div>
               <div className="text-gray-600 dark:text-gray-400">
-                Years of Experience
+                Year of Experience
               </div>
             </div>
             <div>
               <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
-                15+
+                10+
               </div>
               <div className="text-gray-600 dark:text-gray-400">
                 Projects Completed

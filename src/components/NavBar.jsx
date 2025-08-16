@@ -34,24 +34,25 @@ const CustomMobileLink = ({
   toggle,
   currentPath,
 }) => {
-  // Removed: const router = useRouter();
-
-  const handleClick = () => {
+  const handleClick = (e) => {
+    e.preventDefault();
     toggle();
-    // Use standard browser navigation instead of router.push
-    window.location.href = href;
+    // Small delay to allow menu animation to start before navigation
+    setTimeout(() => {
+      window.location.href = href;
+    }, 150);
   };
 
   return (
     <motion.button
-      className={`${className} relative group text-white text-2xl font-medium py-2 px-4`}
+      className={`${className} relative group text-white text-2xl font-medium py-3 px-6`}
       onClick={handleClick}
-      whileHover={{ scale: 1.1 }}
+      whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >
       {title}
       <span
-        className={`h-[2px] inline-block bg-light dark:bg-dark absolute left-0 -bottom-0.5 
+        className={`h-[2px] inline-block bg-white absolute left-0 -bottom-0.5 
         group-hover:w-full transition-[width] ease duration-300 
         ${currentPath === href ? "w-full" : "w-0"}`}
       >
@@ -66,6 +67,7 @@ const NavBar = ({ currentPath }) => {
   // Accept currentPath as a prop
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [scrollPosition, setScrollPosition] = useState(0);
 
   const handleToggle = () => {
     setIsOpen(!isOpen);
@@ -81,19 +83,53 @@ const NavBar = ({ currentPath }) => {
   }, []);
 
   useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && isOpen) {
+        setIsOpen(false);
+      }
+    };
+
+    if (isOpen) {
+      document.addEventListener("keydown", handleEscape);
+    }
+
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
     const { body } = document;
     if (isOpen) {
+      // Store current scroll position
+      const currentScrollY = window.scrollY;
+      setScrollPosition(currentScrollY);
+
+      // Prevent body scroll and handle mobile viewport
       body.style.overflow = "hidden";
+      body.style.position = "fixed";
+      body.style.top = `-${currentScrollY}px`;
+      body.style.width = "100%";
       body.style.touchAction = "none"; // helps on mobile
     } else {
+      // Restore body scroll
       body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.width = "";
       body.style.touchAction = "";
+
+      // Restore scroll position
+      window.scrollTo(0, scrollPosition);
     }
     return () => {
       body.style.overflow = "";
+      body.style.position = "";
+      body.style.top = "";
+      body.style.width = "";
       body.style.touchAction = "";
     };
-  }, [isOpen]);
+  }, [isOpen, scrollPosition]);
 
   return (
     <motion.header
@@ -110,19 +146,22 @@ const NavBar = ({ currentPath }) => {
       <button
         onClick={handleToggle}
         aria-label="Toggle navigation menu"
-        className="absolute right-4 top-3 sm:hidden z-[100] flex flex-col items-center justify-center gap-1"
+        className="fixed right-4 top-4 sm:hidden z-[110] flex flex-col items-center justify-center gap-1 w-8 h-8"
       >
         <span
-          className={`block h-[3px] w-7 rounded bg-white transition-transform duration-300
-      ${isOpen ? "rotate-45 translate-y-[6px]" : ""}`}
+          className={`block h-[3px] w-6 rounded transition-all duration-300 ${
+            scrolled || isOpen ? "bg-dark dark:bg-light" : "bg-white"
+          } ${isOpen ? "rotate-45 translate-y-[6px]" : ""}`}
         />
         <span
-          className={`block h-[3px] w-7 rounded bg-white transition-opacity duration-300
-      ${isOpen ? "opacity-0" : "opacity-100"}`}
+          className={`block h-[3px] w-6 rounded transition-all duration-300 ${
+            scrolled || isOpen ? "bg-dark dark:bg-light" : "bg-white"
+          } ${isOpen ? "opacity-0" : "opacity-100"}`}
         />
         <span
-          className={`block h-[3px] w-7 rounded bg-white transition-transform duration-300
-      ${isOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}
+          className={`block h-[3px] w-6 rounded transition-all duration-300 ${
+            scrolled || isOpen ? "bg-dark dark:bg-light" : "bg-white"
+          } ${isOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}
         />
       </button>
 
@@ -171,8 +210,15 @@ const NavBar = ({ currentPath }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-[90] sm:hidden flex flex-col items-center justify-center space-y-8
+            className="fixed inset-0 z-[100] sm:hidden flex flex-col items-center justify-center space-y-8
              bg-black/40 dark:bg-black/40 backdrop-blur-xl"
+            style={{ height: "100vh", height: "100dvh" }}
+            onClick={(e) => {
+              // Close menu when clicking on the overlay background
+              if (e.target === e.currentTarget) {
+                setIsOpen(false);
+              }
+            }}
           >
             {/* Mobile Navigation Links */}
             <nav className="flex flex-col items-center space-y-6">
@@ -228,7 +274,7 @@ const NavBar = ({ currentPath }) => {
 
       {/* Logo in the center */}
       <motion.div
-        className="absolute left-[50%] top-2 sm:top-4 translate-x-[-50%]"
+        className="absolute left-[50%] top-2 sm:top-4 translate-x-[-50%] z-50"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >

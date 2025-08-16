@@ -36,7 +36,7 @@ const wordVariants = {
 };
 
 const getRandomColor = () => {
-  const colors = ["#2C3E50", "#E9ECEF", "#1B3A57", "##F39C12", "##2ECC71"];
+  const colors = ["#FFFFFF"];
   return colors[Math.floor(Math.random() * colors.length)];
 };
 
