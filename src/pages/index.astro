@@ -21,35 +21,35 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
   
   <!-- Section 1: Hero -->
   <main class="flex items-center text-dark w-full min-h-screen dark:text-light relative overflow-hidden">
-    <div class="pt-0 md:pt-16 sm:pt-8 w-full relative z-10">
-      <div class="flex items-center justify-center w-full px-32 xl:px-24 lg:px-16 md:px-12 sm:px-8">
+    <div class="pt-0 md:pt-16 sm:pt-20 w-full relative z-10">
+      <div class="flex items-center justify-center w-full px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32">
         <div class="w-full flex flex-col items-center self-center text-center">
           <TypingAnimation
-            className="mb-8"
+            className="mb-6 sm:mb-4"
             client:visible
           />
-          <p class="my-4 text-base font-medium md:text-sm sm:text-xs text-slate-700 dark:text-slate-300 max-w-2xl text-center">
+          <p class="my-4 text-base font-medium sm:text-sm xs:text-xs text-slate-700 dark:text-slate-300 max-w-2xl sm:max-w-sm text-center leading-relaxed sm:leading-normal">
             I am a mathematics and computer science student at the University of Southampton with a 
             strong passion for machine learning and deep learning. I have 
             gained extensive knowledge in these fields through courses and project development.
           </p>
-          <div class="flex items-center justify-center mt-2 gap-4">
+          <div class="flex items-center justify-center mt-2 gap-4 sm:gap-2 sm:flex-col xs:gap-3">
             <a 
               href="mailto:tyagip872@gmail.com" 
               target="_blank" 
-              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors md:text-base"
+              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors sm:text-base xs:text-sm"
             >
               Contact
             </a>
             <a 
               href="/projects" 
-              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors md:text-base"
+              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors sm:text-base xs:text-sm"
             >
               View projects
             </a>
             <a 
               href="/blog" 
-              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors md:text-base"
+              class="text-lg font-medium text-blue-700 dark:text-blue-400 capitalize underline hover:text-blue-800 dark:hover:text-blue-300 transition-colors sm:text-base xs:text-sm"
             >
               View Blogs
             </a>
@@ -60,28 +60,55 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
   </main>
 
   <!-- Section 2: About Me & Skills -->
-  <main class="flex w-full flex-col items-center justify-center dark:text-light py-24 relative z-10">
-    <div class="pt-16 w-full px-32 xl:px-24 lg:px-16 md:px-12 sm:px-8"> 
-      <h1 class="mb-16 lg:!text-7xl sm:!text-6xl xs:!text-4xl sm:mb-8 text-center text-slate-800 dark:text-slate-100 font-bold">
+  <main class="flex w-full flex-col items-center justify-center dark:text-light py-16 sm:py-12 relative z-10">
+    <div class="pt-16 sm:pt-8 w-full px-8 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32"> 
+      <h1 class="mb-16 sm:mb-8 lg:!text-7xl md:!text-6xl sm:!text-5xl xs:!text-4xl text-center text-slate-800 dark:text-slate-100 font-bold">
         Passion Powers Purpose
       </h1>
-      <div class="grid w-full grid-cols-8 gap-16 sm:gap-8">
-        <div class="col-span-3 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-8 xl:col-span-4 md:order-1 md:col-span-8 shadow-xl">
+      <!-- Mobile Layout: Heading first, then image, then text -->
+      <div class="md:hidden">
+        <h2 class="mb-6 text-lg font-bold uppercase text-blue-600 dark:text-blue-400 text-center">About Me</h2>
+        
+        <div class="mb-6 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-6 xs:p-4 shadow-xl">
           <div class="absolute top-0 -right-3 -z-10 w-[102%] h-[103%] rounded-[2rem] bg-blue-200 dark:bg-blue-900"></div>
           <Image src={profilePic} alt="Apoorv Tyagi" class="w-full h-auto rounded-2xl shadow-lg" />
         </div>
-        <div class="col-span-5 flex flex-col items-start justify-start xl:col-span-4 md:order-2 md:col-span-8">
-          <h2 class="mb-4 text-lg font-bold uppercase text-blue-600 dark:text-blue-400">About Me</h2>
-          <p class="font-medium text-slate-700 dark:text-slate-300 mb-4">
+        
+        <div class="space-y-4">
+          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
             Hi, I am Apoorv Tyagi, a passionate mathematics and computer science student at the University of Southampton. 
             I specialize in full-stack web development using the MERN stack and have a deep interest in machine learning 
             and artificial intelligence.
           </p>
-          <p class="my-4 font-medium text-slate-700 dark:text-slate-300">
+          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
             On this website, you can find a showcase of my projects, ranging from web applications to machine learning 
             models. I love creating innovative solutions that combine beautiful user interfaces with powerful backend systems.
           </p>
-          <p class="font-medium text-slate-700 dark:text-slate-300">
+          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
+            I look forward to the opportunity to collaborate on exciting projects and contribute to the ever-evolving 
+            world of technology. Feel free to explore my work and get in touch!
+          </p>
+        </div>
+      </div>
+
+      <!-- Desktop/Tablet Layout: Side by side -->
+      <div class="hidden md:grid w-full grid-cols-8 gap-16 lg:gap-8 md:gap-6">
+        <div class="col-span-3 xl:col-span-4 md:col-span-8 md:order-1 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-8 sm:p-6 shadow-xl">
+          <div class="absolute top-0 -right-3 -z-10 w-[102%] h-[103%] rounded-[2rem] bg-blue-200 dark:bg-blue-900"></div>
+          <Image src={profilePic} alt="Apoorv Tyagi" class="w-full h-auto rounded-2xl shadow-lg" />
+        </div>
+        <div class="col-span-5 xl:col-span-4 md:col-span-8 md:order-2 flex flex-col items-start justify-start">
+          <h2 class="mb-4 text-lg font-bold uppercase text-blue-600 dark:text-blue-400">About Me</h2>
+          <p class="font-medium text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+            Hi, I am Apoorv Tyagi, a passionate mathematics and computer science student at the University of Southampton. 
+            I specialize in full-stack web development using the MERN stack and have a deep interest in machine learning 
+            and artificial intelligence.
+          </p>
+          <p class="my-4 font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
+            On this website, you can find a showcase of my projects, ranging from web applications to machine learning 
+            models. I love creating innovative solutions that combine beautiful user interfaces with powerful backend systems.
+          </p>
+          <p class="font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
             I look forward to the opportunity to collaborate on exciting projects and contribute to the ever-evolving 
             world of technology. Feel free to explore my work and get in touch!
           </p>

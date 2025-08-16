@@ -44,16 +44,16 @@ const CustomMobileLink = ({
 
   return (
     <motion.button
-      className={`${className} relative group text-light  my-2`}
+      className={`${className} relative group text-white text-2xl font-medium py-2 px-4`}
       onClick={handleClick}
       whileHover={{ scale: 1.1 }}
       whileTap={{ scale: 0.95 }}
     >
       {title}
       <span
-        className={`h-[2px] inline-block bg-white absolute left-0 -bottom-0.5 
+        className={`h-[2px] inline-block bg-light dark:bg-dark absolute left-0 -bottom-0.5 
         group-hover:w-full transition-[width] ease duration-300 
-        ${currentPath === href ? "w-full" : "w-0"} dark:bg-dark`} // Use currentPath prop
+        ${currentPath === href ? "w-full" : "w-0"}`}
       >
         &nbsp;
       </span>
@@ -80,9 +80,24 @@ const NavBar = ({ currentPath }) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  useEffect(() => {
+    const { body } = document;
+    if (isOpen) {
+      body.style.overflow = "hidden";
+      body.style.touchAction = "none"; // helps on mobile
+    } else {
+      body.style.overflow = "";
+      body.style.touchAction = "";
+    }
+    return () => {
+      body.style.overflow = "";
+      body.style.touchAction = "";
+    };
+  }, [isOpen]);
+
   return (
     <motion.header
-      className={`w-full px-8 py-4 font-medium flex items-center justify-between
+      className={`w-full px-4 sm:px-6 md:px-8 py-4 font-medium flex items-center justify-between
       dark:text-light fixed top-0 left-0 right-0 z-50 transition-all duration-300
       ${
         scrolled ? "bg-light/70 dark:bg-dark/70 backdrop-blur-md shadow-lg" : ""
@@ -91,31 +106,29 @@ const NavBar = ({ currentPath }) => {
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
     >
-      {/* Hamburger Menu Button - Only show on mobile */}
+      {/* Hamburger Menu Button - Only show on small mobile screens */}
       <button
-        className="flex-col justify-center items-center flex lg:hidden"
         onClick={handleToggle}
+        aria-label="Toggle navigation menu"
+        className="absolute right-4 top-3 sm:hidden z-[100] flex flex-col items-center justify-center gap-1"
       >
         <span
-          className={`bg-dark dark:bg-light transition-all duration-300 ease-out block h-0.5 w-6 rounded-sm ${
-            isOpen ? "rotate-45 translate-y-1" : "-translate-y-0.5"
-          }`}
-        ></span>
+          className={`block h-[3px] w-7 rounded bg-white transition-transform duration-300
+      ${isOpen ? "rotate-45 translate-y-[6px]" : ""}`}
+        />
         <span
-          className={`bg-dark dark:bg-light transition-all duration-300 ease-out block h-0.5 w-6 rounded-sm my-0.5 ${
-            isOpen ? "opacity-0" : "opacity-100"
-          }`}
-        ></span>
+          className={`block h-[3px] w-7 rounded bg-white transition-opacity duration-300
+      ${isOpen ? "opacity-0" : "opacity-100"}`}
+        />
         <span
-          className={`bg-dark dark:bg-light transition-all duration-300 ease-out block h-0.5 w-6 rounded-sm ${
-            isOpen ? "-rotate-45 -translate-y-1" : "translate-y-0.5"
-          }`}
-        ></span>
+          className={`block h-[3px] w-7 rounded bg-white transition-transform duration-300
+      ${isOpen ? "-rotate-45 -translate-y-[6px]" : ""}`}
+        />
       </button>
 
-      {/* Desktop Menu - Show on desktop, hide on mobile */}
-      <div className="w-full justify-between items-center hidden lg:flex">
-        <nav className="flex space-x-4">
+      {/* Desktop Menu - Show on small screens and up, hide only on very small mobile */}
+      <div className="w-full justify-between items-center hidden sm:flex">
+        <nav className="flex space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6">
           {/* Pass currentPath down to each link */}
           <CustomLink href="/" title="Home" currentPath={currentPath} />
           <CustomLink
@@ -126,7 +139,7 @@ const NavBar = ({ currentPath }) => {
           <CustomLink href="/blog" title="Blog" currentPath={currentPath} />
         </nav>
 
-        <nav className="flex items-center justify-center space-x-4">
+        <nav className="flex items-center justify-center space-x-2 sm:space-x-3 md:space-x-4 lg:space-x-6">
           <motion.a
             href="https://www.linkedin.com/in/apoorv-tyagi22"
             target="_blank"
@@ -150,7 +163,7 @@ const NavBar = ({ currentPath }) => {
         </nav>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -158,10 +171,11 @@ const NavBar = ({ currentPath }) => {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center space-y-8 bg-dark/90 dark:bg-light/90 backdrop-blur-md"
+            className="fixed inset-0 z-[90] sm:hidden flex flex-col items-center justify-center space-y-8
+             bg-black/40 dark:bg-black/40 backdrop-blur-xl"
           >
-            {/* Pass currentPath down to each mobile link */}
-            <nav className="flex flex-col items-center space-y-4">
+            {/* Mobile Navigation Links */}
+            <nav className="flex flex-col items-center space-y-6">
               <CustomMobileLink
                 href="/"
                 title="Home"
@@ -181,25 +195,29 @@ const NavBar = ({ currentPath }) => {
                 currentPath={currentPath}
               />
             </nav>
+
             {/* Social links for mobile menu */}
-            <nav className="flex items-center justify-center space-x-6">
+            <nav className="sm:hidden flex flex-col items-center justify-center gap-8">
               <motion.a
                 href="https://www.linkedin.com/in/apoorv-tyagi22"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-8 h-8"
+                aria-label="LinkedIn"
+                className="inline-flex w-10 h-10 items-center justify-center text-light dark:text-dark"
               >
                 <LinkedInIcon />
               </motion.a>
+
               <motion.a
                 href="https://github.com/apoorvtyagi22"
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ y: -2 }}
                 whileTap={{ scale: 0.9 }}
-                className="w-8 h-8"
+                aria-label="GitHub"
+                className="inline-flex w-10 h-10 items-center justify-center text-light dark:text-dark"
               >
                 <GithubIcon />
               </motion.a>
@@ -210,7 +228,7 @@ const NavBar = ({ currentPath }) => {
 
       {/* Logo in the center */}
       <motion.div
-        className="absolute left-[50%] top-4 translate-x-[-50%]"
+        className="absolute left-[50%] top-2 sm:top-4 translate-x-[-50%]"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
       >
