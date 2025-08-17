@@ -2,32 +2,54 @@ name: Deploy Astro Website via SSH
 
 on:
   push:
-    branches:
-      - live
+    branches: [live]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: "20"
           cache: "npm"
 
       - name: Install and Build
         run: |
-          npm install
+          npm ci
           npm run build
 
-      - name: Deploy with rsync
-        uses: appleboy/rsync-action@v1.1.0
+      # Probe the server for rsync
+      - name: Check rsync on server
+        id: check_rsync
+        continue-on-error: true
+        uses: appleboy/ssh-action@v1
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "dist/"
+          script_stop: true
+          script: |
+            command -v rsync >/dev/null 2>&1
+
+      - name: Deploy with rsync
+        if: steps.check_rsync.outcome == 'success'
+        uses: easingthemes/ssh-deploy@v5.1.0
+        with:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          REMOTE_HOST: ${{ secrets.SSH_HOST }}
+          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
+          SOURCE: "dist/"
+          TARGET: "public_html/"
+          ARGS: "-avz --delete"
+
+      - name: Deploy with SCP (fallback)
+        if: steps.check_rsync.outcome != 'success'
+        uses: appleboy/scp-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/*"
           target: "public_html/"
