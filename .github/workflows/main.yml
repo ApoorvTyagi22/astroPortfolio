@@ -24,15 +24,10 @@ jobs:
           npm run build
 
       - name: Deploy with rsync
-        uses: easing-themes/ssh-deploy@v5.1.1
+        uses: appleboy/rsync-action@v1.1.0
         with:
-          # The private key for SSH access
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          # The remote host, from your hosting provider
-          REMOTE_HOST: ${{ secrets.SSH_HOST }}
-          # The remote user
-          REMOTE_USER: ${{ secrets.SSH_USERNAME }}
-          # The source directory on the runner
-          SOURCE: "dist/"
-          # The target directory on your server
-          TARGET: "public_html/"
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          source: "dist/"
+          target: "public_html/"
