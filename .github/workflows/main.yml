@@ -18,7 +18,7 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USERNAME }}
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_PORT: ${{ secrets.SSH_PORT }} # set to 65002 in repo secrets
+      SSH_PORT: ${{ secrets.SSH_PORT }} # set this to 65002
       DOCROOT: /home/u749228359/public_html/
 
     steps:
@@ -34,6 +34,8 @@ jobs:
         run: |
           npm ci
           npm run build
+          echo "Built files:"
+          ls -lah dist
 
       - name: Ensure target directory exists
         uses: appleboy/ssh-action@v1
@@ -42,9 +44,12 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
+          envs: DOCROOT
           script_stop: true
           script: |
-            mkdir -p "$DOCROOT"
+            set -eu
+            echo "DOCROOT=$DOCROOT"
+            mkdir -p "$DOCROOT" "$DOCROOT/.well-known/acme-challenge"
 
       - name: Check rsync on server
         id: check_rsync
@@ -59,7 +64,7 @@ jobs:
           script: |
             command -v rsync >/dev/null 2>&1
 
-      # When rsync isn't available, clean docroot so SCP copy is exact
+      # Clean only when rsync isn't available
       - name: Clean target (when rsync unavailable)
         if: steps.check_rsync.outcome != 'success'
         uses: appleboy/ssh-action@v1
@@ -68,10 +73,11 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
+          envs: DOCROOT
           script_stop: true
           script: |
-            set -e
-            # keep Let's Encrypt files if present
+            set -eu
+            echo "Cleaning $DOCROOT (keeping .well-known)"
             find "$DOCROOT" -mindepth 1 -maxdepth 1 \
               -not -name '.well-known' \
               -exec rm -rf {} +
@@ -96,9 +102,10 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
+          # Copy the contents of dist (and .htaccess if present)
           source: |
             dist/**
-            dist/.*
+            dist/.htaccess
           target: "${{ env.DOCROOT }}"
           strip_components: 1
           overwrite: true
@@ -110,8 +117,10 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
+          envs: DOCROOT,GITHUB_SHA
           script_stop: true
           script: |
+            set -eu
             printf "%s\n" "${GITHUB_SHA}" > "$DOCROOT/.deploy_sha"
             echo "Deployed to: $(readlink -f "$DOCROOT")"
-            ls -lah "$DOCROOT" | sed -n '1,60p'
+            ls -lah "$DOCROOT" | sed -n '1,80p'
