@@ -18,8 +18,8 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USERNAME }}
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_PORT: ${{ secrets.SSH_PORT }} # set this to 65002
-      DOCROOT: /home/u749228359/public_html/
+      SSH_PORT: ${{ secrets.SSH_PORT }} # 65002
+      DOCROOT: /home/u749228359/domains/apoorvtyagi.com/public_html/
 
     steps:
       - uses: actions/checkout@v4
@@ -64,7 +64,6 @@ jobs:
           script: |
             command -v rsync >/dev/null 2>&1
 
-      # Clean only when rsync isn't available
       - name: Clean target (when rsync unavailable)
         if: steps.check_rsync.outcome != 'success'
         uses: appleboy/ssh-action@v1
@@ -102,7 +101,6 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
-          # Copy the contents of dist (and .htaccess if present)
           source: |
             dist/**
             dist/.htaccess
