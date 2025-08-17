@@ -212,7 +212,7 @@ const NavBar = ({ currentPath }) => {
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
             className="fixed inset-0 z-[100] sm:hidden flex flex-col items-center justify-center space-y-8
              bg-black/40 dark:bg-black/40 backdrop-blur-xl"
-            style={{ height: "100vh", height: "100dvh" }}
+            style={{ height: "100dvh" }}
             onClick={(e) => {
               // Close menu when clicking on the overlay background
               if (e.target === e.currentTarget) {
