@@ -55,7 +55,7 @@ jobs:
           port: ${{ env.SSH_PORT }}
           script_stop: true
           script: |
-            mkdir -p public_html
+            mkdir -p /home/u749228359/public_html/
 
       # Probe the server for rsync
       - name: Check rsync on server
@@ -80,7 +80,7 @@ jobs:
           REMOTE_USER: ${{ env.SSH_USER }}
           REMOTE_PORT: ${{ env.SSH_PORT }}
           SOURCE: "dist/"
-          TARGET: "public_html/"
+          TARGET: "/home/u749228359/public_html/"
           ARGS: "-avz --delete"
 
       - name: Deploy with SCP (fallback)
@@ -92,7 +92,7 @@ jobs:
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
           source: "dist/*"
-          target: "public_html/"
+          target: "/home/u749228359/public_html/"
 
       # Optional: deeper SSH debug if things still fail
       - name: Debug SSH handshake
