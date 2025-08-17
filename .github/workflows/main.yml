@@ -18,7 +18,8 @@ jobs:
       SSH_HOST: ${{ secrets.SSH_HOST }}
       SSH_USER: ${{ secrets.SSH_USERNAME }}
       SSH_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_PORT: ${{ secrets.SSH_PORT }} # set this secret if your host isn't on 22
+      SSH_PORT: ${{ secrets.SSH_PORT }} # set to 65002 in repo secrets
+      DOCROOT: /home/u749228359/public_html/
 
     steps:
       - uses: actions/checkout@v4
@@ -34,18 +35,6 @@ jobs:
           npm ci
           npm run build
 
-      # Fail fast if the runner can't reach your SSH endpoint
-      - name: Connectivity check (DNS + TCP)
-        run: |
-          set -euo pipefail
-          : "${SSH_PORT:=22}"
-          echo "Resolving $SSH_HOST ..."
-          getent ahosts "$SSH_HOST" || true
-          echo "Testing TCP $SSH_HOST:$SSH_PORT ..."
-          timeout 5 bash -lc "cat < /dev/null > /dev/tcp/$SSH_HOST/$SSH_PORT" \
-            && echo "TCP OK" || (echo "Cannot reach $SSH_HOST:$SSH_PORT from GitHub runner"; exit 1)
-
-      # Make sure the remote folder exists (works for both rsync and scp)
       - name: Ensure target directory exists
         uses: appleboy/ssh-action@v1
         with:
@@ -55,9 +44,8 @@ jobs:
           port: ${{ env.SSH_PORT }}
           script_stop: true
           script: |
-            mkdir -p /home/u749228359/public_html/
+            mkdir -p "$DOCROOT"
 
-      # Probe the server for rsync
       - name: Check rsync on server
         id: check_rsync
         continue-on-error: true
@@ -71,6 +59,23 @@ jobs:
           script: |
             command -v rsync >/dev/null 2>&1
 
+      # When rsync isn't available, clean docroot so SCP copy is exact
+      - name: Clean target (when rsync unavailable)
+        if: steps.check_rsync.outcome != 'success'
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ env.SSH_KEY }}
+          port: ${{ env.SSH_PORT }}
+          script_stop: true
+          script: |
+            set -e
+            # keep Let's Encrypt files if present
+            find "$DOCROOT" -mindepth 1 -maxdepth 1 \
+              -not -name '.well-known' \
+              -exec rm -rf {} +
+
       - name: Deploy with rsync
         if: steps.check_rsync.outcome == 'success'
         uses: easingthemes/ssh-deploy@v5.1.0
@@ -80,7 +85,7 @@ jobs:
           REMOTE_USER: ${{ env.SSH_USER }}
           REMOTE_PORT: ${{ env.SSH_PORT }}
           SOURCE: "dist/"
-          TARGET: "/home/u749228359/public_html/"
+          TARGET: "${{ env.DOCROOT }}"
           ARGS: "-avz --delete"
 
       - name: Deploy with SCP (fallback)
@@ -91,15 +96,22 @@ jobs:
           username: ${{ env.SSH_USER }}
           key: ${{ env.SSH_KEY }}
           port: ${{ env.SSH_PORT }}
-          source: "dist/*"
-          target: "/home/u749228359/public_html/"
+          source: |
+            dist/**
+            dist/.*
+          target: "${{ env.DOCROOT }}"
+          strip_components: 1
+          overwrite: true
 
-      # Optional: deeper SSH debug if things still fail
-      - name: Debug SSH handshake
-        if: failure()
-        run: |
-          set -x
-          : "${SSH_PORT:=22}"
-          umask 077
-          printf "%s\n" "$SSH_KEY" > key.pem
-          ssh -vvv -o StrictHostKeyChecking=accept-new -i key.pem -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "echo connected && uname -a || true"
+      - name: Stamp release & list files
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ env.SSH_HOST }}
+          username: ${{ env.SSH_USER }}
+          key: ${{ env.SSH_KEY }}
+          port: ${{ env.SSH_PORT }}
+          script_stop: true
+          script: |
+            printf "%s\n" "${GITHUB_SHA}" > "$DOCROOT/.deploy_sha"
+            echo "Deployed to: $(readlink -f "$DOCROOT")"
+            ls -lah "$DOCROOT" | sed -n '1,60p'
