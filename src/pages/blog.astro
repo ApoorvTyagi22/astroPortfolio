@@ -14,8 +14,8 @@ const articles = allArticles.map(article => ({
   summary: article.frontmatter.subtitle || 'Click to read more...',
   slug: getSlugFromFilename(article.filename),
   date: article.frontmatter.date || 'Recent',
-  readTime: article.slug === 'devOpsArticle' ? '8 min read' : '12 min read',
-  category: article.slug === 'devOpsArticle' ? 'DevOps' : 'Computer Science',
+  readTime: article.slug === 'devOpsArticle' ? '8 min read' : article.slug === 'MEM1Learning' ? '10 min read' : '12 min read',
+  category: article.slug === 'devOpsArticle' ? 'DevOps' : article.slug === 'MEM1Learning' ? 'Artificial Intelligence' : 'Computer Science',
   featured: true
 }));
 

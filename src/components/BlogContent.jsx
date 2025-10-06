@@ -3,11 +3,11 @@ import MarkdownRenderer from "./MarkdownRenderer.jsx";
 
 const BlogContent = ({ frontmatter, content }) => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 pt-16">
       <article className="max-w-4xl mx-auto px-8 py-16">
         {/* Article Header */}
         <header className="text-center mb-16">
-          <div className="mb-6">
+          <div className="mb-8">
             <span className="bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 px-4 py-2 rounded-full text-sm font-medium">
               {frontmatter.category || "Article"}
             </span>
