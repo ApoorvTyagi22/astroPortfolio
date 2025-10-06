@@ -1,6 +1,6 @@
 ---
 title: "MEM1 Learning: Synergizing Memory and Reasoning for Efficient Long-Horizon Agents"
-subtitle: "Exploring a novel approach to memory management in AI agents that maintains constant token length for better efficiency in long-horizon tasks"
+subtitle: "Exploring a new approach to memory management in AI agents that maintains constant token length for better efficiency in long-horizon tasks"
 category: "Artificial Intelligence"
 date: "7/09/2025"
 ---
