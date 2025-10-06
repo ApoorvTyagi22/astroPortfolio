@@ -1,0 +1,23 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.jsx';
+import Footer from '../../components/Footer.jsx';
+import BlogContent from '../../components/BlogContent.jsx';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+// Read the MEM1 Learning article markdown file
+const filePath = path.join(process.cwd(), 'public/markdownFiles/articles', 'MEM1Learning.md');
+const fileContents = fs.readFileSync(filePath, 'utf8');
+const { data: frontmatter, content } = matter(fileContents);
+
+---
+
+<Layout title={frontmatter.title} description={frontmatter.subtitle}>
+  <NavBar currentPath="/blog" client:load />
+  
+  <BlogContent frontmatter={frontmatter} content={content} client:load />
+  
+  <Footer />
+</Layout>
