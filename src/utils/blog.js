@@ -48,6 +48,7 @@ export function getArticleBySlug(slug) {
 export const articleSlugs = {
   devOpsArticle: "devops-guide",
   HowTheCpuWorks: "cpu-memory-guide",
+  "Sparse-Sentence-Encodings": "sparse-sentence-encodings",
 };
 
 export function getSlugFromFilename(filename) {

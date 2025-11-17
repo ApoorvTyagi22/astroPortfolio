@@ -83,6 +83,32 @@ const MarkdownRenderer = ({ content }) => {
             background: #475569 !important;
             border-color: #64748b !important;
           }
+
+          .video-embed {
+            position: relative;
+            width: 100%;
+            padding-bottom: 56.25%;
+            margin: 1.5rem 0;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+            background: #000;
+            border: 1px solid rgba(148, 163, 184, 0.3);
+          }
+
+          .video-embed iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+          }
+
+          .dark .video-embed {
+            border-color: rgba(148, 163, 184, 0.6);
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.45);
+          }
         `,
         }}
       />

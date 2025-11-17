@@ -12,6 +12,19 @@ The code for this project can be found on [GitHub](https://github.com/ApoorvTyag
 
 Above is a video that shows the functionality of the application. You can click on the video to play it. Once the video starts playing you can click on the full screen button to view the video in full screen, or you can click on the youtube button to view the video on youtube. This will allow you to fix the screen size of the video.
 
+<div class="video-embed">
+   <iframe
+      src="https://www.youtube.com/embed/BLjVHoJyMLk"
+      title="Java Web Application Demo"
+      loading="lazy"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+   ></iframe>
+</div>
+
+[Watch on YouTube](https://youtu.be/BLjVHoJyMLk)
+
 ## Introduction
 
 This is a java web application that allows my client to manage his online store. We make use of mysql database to store the data. The application is hosted on a tomcat server, whereas, the webpages are designed using JSP and servlets. The application is designed to be simple and easy to use. The client is not very good with technology, so the application is designed to be simple and easy to use. The application allows the client to store his customer details safely. The application uses JDBC to connect to the database.
