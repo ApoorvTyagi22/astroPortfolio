@@ -1,0 +1,26 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.jsx';
+import Footer from '../../components/Footer.jsx';
+import BlogContent from '../../components/BlogContent.jsx';
+import fs from 'fs';
+import path from 'path';
+import matter from 'gray-matter';
+
+const filePath = path.join(
+  process.cwd(),
+  'public/markdownFiles/articles',
+  'HAXSS.md'
+);
+const fileContents = fs.readFileSync(filePath, 'utf8');
+const { data: frontmatter, content } = matter(fileContents);
+
+frontmatter.category = frontmatter.category || 'Security';
+frontmatter.readTime = frontmatter.readTime || '7 min read';
+---
+
+<Layout title={frontmatter.title} description={frontmatter.subtitle}>
+  <NavBar currentPath="/blog" client:load />
+  <BlogContent frontmatter={frontmatter} content={content} client:load />
+  <Footer />
+</Layout>

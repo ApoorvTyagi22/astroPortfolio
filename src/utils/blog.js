@@ -49,6 +49,7 @@ export const articleSlugs = {
   devOpsArticle: "devops-guide",
   HowTheCpuWorks: "cpu-memory-guide",
   "Sparse-Sentence-Encodings": "sparse-sentence-encodings",
+  HAXSS: "haxss",
 };
 
 export function getSlugFromFilename(filename) {

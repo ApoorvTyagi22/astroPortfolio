@@ -10,27 +10,44 @@ const allArticles = getAllArticles();
 
 const articleMeta: Record<string, { readTime: string; category: string }> = {
   devOpsArticle: { readTime: '8 min read', category: 'DevOps' },
+  HAXSS: { readTime: '7 min read', category: 'Reinforcement Learning' },
   MEM1Learning: { readTime: '10 min read', category: 'Artificial Intelligence' },
   HowTheCpuWorks: { readTime: '12 min read', category: 'Computer Architecture' },
   'Sparse-Sentence-Encodings': { readTime: '9 min read', category: 'Natural Language Processing' },
 };
 
 const defaultMeta = { readTime: '12 min read', category: 'Computer Science' };
+const articleOrder = [
+  'MEM1Learning',
+  'Sparse-Sentence-Encodings',
+  'HAXSS',
+  'devOpsArticle',
+  'HowTheCpuWorks',
+];
 
 // Transform articles data for display
-const articles = allArticles.map(article => {
-  const meta = articleMeta[article.slug] || defaultMeta;
+const articles = allArticles
+  .map(article => {
+    const meta = articleMeta[article.slug] || defaultMeta;
 
-  return {
-    title: article.frontmatter.title,
-    summary: article.frontmatter.subtitle || 'Click to read more...',
-    slug: getSlugFromFilename(article.filename),
-    date: article.frontmatter.date || 'Recent',
-    readTime: meta.readTime,
-    category: meta.category,
-    featured: true,
-  };
-});
+    return {
+      sourceSlug: article.slug,
+      title: article.frontmatter.title,
+      summary: article.frontmatter.subtitle || 'Click to read more...',
+      slug: getSlugFromFilename(article.filename),
+      date: article.frontmatter.date || 'Recent',
+      readTime: meta.readTime,
+      category: meta.category,
+      featured: true,
+    };
+  })
+  .sort((a, b) => {
+    const indexA = articleOrder.indexOf(a.sourceSlug);
+    const indexB = articleOrder.indexOf(b.sourceSlug);
+    const rankA = indexA === -1 ? articleOrder.length : indexA;
+    const rankB = indexB === -1 ? articleOrder.length : indexB;
+    return rankA - rankB;
+  });
 
 const upcomingArticles = [
   {
