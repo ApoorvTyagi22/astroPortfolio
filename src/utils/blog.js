@@ -50,6 +50,7 @@ export const articleSlugs = {
   HowTheCpuWorks: "cpu-memory-guide",
   "Sparse-Sentence-Encodings": "sparse-sentence-encodings",
   HAXSS: "haxss",
+  "RTB-dynamic-pricing": "rtb-dynamic-pricing",
 };
 
 export function getSlugFromFilename(filename) {
