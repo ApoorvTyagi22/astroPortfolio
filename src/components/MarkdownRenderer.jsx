@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeRaw from "rehype-raw";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { vscDarkPlus } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import "katex/dist/katex.min.css";
@@ -113,7 +114,7 @@ const MarkdownRenderer = ({ content }) => {
         }}
       />
       <ReactMarkdown
-        remarkPlugins={[remarkMath]}
+        remarkPlugins={[remarkMath, remarkGfm]}
         rehypePlugins={[rehypeKatex, rehypeRaw]}
         components={{
           img: ({ src, alt, ...props }) => (
@@ -243,10 +244,57 @@ const MarkdownRenderer = ({ content }) => {
           blockquote: ({ children, ...props }) => (
             <blockquote
               {...props}
-              className="border-l-4 border-blue-500 pl-4 italic text-slate-600 dark:text-slate-400 my-4"
+              className="border-l-4 border-blue-500 pl-4 italic text-slate-600 dark:text-slate-400 my-4 bg-blue-50 dark:bg-slate-800/50 py-2 pr-4 rounded-r-lg"
             >
               {children}
             </blockquote>
+          ),
+          table: ({ children, ...props }) => (
+            <div className="overflow-x-auto my-8 border border-gray-200 dark:border-gray-700 shadow-sm rounded-lg">
+              <table
+                {...props}
+                className="min-w-full divide-y divide-gray-200 dark:divide-gray-700 m-0"
+              >
+                {children}
+              </table>
+            </div>
+          ),
+          thead: ({ children, ...props }) => (
+            <thead {...props} className="bg-gray-50 dark:bg-gray-800">
+              {children}
+            </thead>
+          ),
+          tbody: ({ children, ...props }) => (
+            <tbody
+              {...props}
+              className="bg-white dark:bg-slate-900 divide-y divide-gray-200 dark:divide-gray-700"
+            >
+              {children}
+            </tbody>
+          ),
+          tr: ({ children, ...props }) => (
+            <tr
+              {...props}
+              className="hover:bg-gray-50 dark:hover:bg-slate-800 transition-colors"
+            >
+              {children}
+            </tr>
+          ),
+          th: ({ children, ...props }) => (
+            <th
+              {...props}
+              className="px-6 py-3 text-left text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+            >
+              {children}
+            </th>
+          ),
+          td: ({ children, ...props }) => (
+            <td
+              {...props}
+              className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
+            >
+              {children}
+            </td>
           ),
         }}
       >
