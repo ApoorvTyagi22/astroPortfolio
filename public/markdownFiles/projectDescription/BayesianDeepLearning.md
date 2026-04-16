@@ -57,7 +57,7 @@ shifted_transform = transforms.Compose([
     transforms.Resize((IMG_SIZE, IMG_SIZE)),
     transforms.RandomRotation(90),
     transforms.ToTensor(),
-    AddGaussianNoise(0., 0.5), # Add significant noise
+    AddGaussianNoise(0., 0.5),
     transforms.Normalize(...)
 ])
 ```
