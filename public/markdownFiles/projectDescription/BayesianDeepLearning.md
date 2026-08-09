@@ -107,11 +107,58 @@ A model that predicts uniformly has trivially low calibration error — which is
 
 # Analysis
 
-*Results from the full training run on OCT2017 are being finalised and this section will be updated with the converged model's metrics: per-class recall, ECE with reliability diagram, uncertainty decomposition across the three regimes, and OOD-detection AUROC. The hypothesis under test: aleatoric uncertainty should rise on the corrupted test set, epistemic uncertainty should rise on CIFAR-10, and epistemic uncertainty alone should separate in-distribution from OOD inputs with AUROC well above 0.5.*
+The model was trained for 5 epochs on 12,000 scans, 4,000 from each class, on an Apple M3. Evaluation uses the held-out OCT2017 test split (726 scans, 242 per class) with 20 MC Dropout passes per image.
+
+## Classification
+
+| Class | Precision | Recall | Support |
+| :--- | ---: | ---: | ---: |
+| normal | 1.00 | 1.00 | 242 |
+| early_amd | 0.99 | 1.00 | 242 |
+| late_amd | 1.00 | 0.99 | 242 |
+| **Overall accuracy** | | **99.6%** | 726 |
+
+All three classes are classified well. This matters more than the headline number: the earlier version of this model reached 38% by labelling everything "normal", which is what per-class recall exposes and overall accuracy hides.
+
+One caveat worth stating. Accuracy on a held-out slice of the training data was 94.8%, lower than the 99.6% on the official test split. The test split is small and was curated by expert graders, so it is cleaner than the training distribution. The 94.8% figure is the more honest estimate of real-world performance.
+
+## Uncertainty Decomposition
+
+| Regime | Accuracy | Aleatoric | Epistemic | Mean confidence |
+| :--- | ---: | ---: | ---: | ---: |
+| Clean OCT scans | 99.6% | 4.29e-03 | 3.85e-05 | 0.997 |
+| Corrupted OCT scans | 33.5% | 1.88e-02 | 1.58e-02 | 0.676 |
+| CIFAR-10 (OOD) | n/a | 1.10e-01 | 7.41e-03 | 0.840 |
+
+Both types of uncertainty behave as the theory says they should. Aleatoric uncertainty rises as the input gets harder to read: 4 times higher on corrupted scans and 26 times higher on natural images. Epistemic uncertainty rises when the input moves away from what the model was trained on: 410 times higher on corrupted scans and 192 times higher on CIFAR-10.
+
+The values for the two types are on different scales, so they should only be compared down a column, not across a row.
+
+One result looks backwards at first. Epistemic uncertainty is higher on corrupted OCT scans than on CIFAR-10, even though CIFAR-10 is further from the training data. The reason is that corrupted scans land near the boundary between the three classes the model knows, so different dropout masks genuinely disagree about which class it is. CIFAR-10 images land so far outside the training distribution that the features collapse into one region and the masks agree with each other on a meaningless answer. Near-boundary inputs produce more model disagreement than far-away inputs.
+
+## Calibration
+
+The Expected Calibration Error on the clean test set is **0.0026**, meaning predicted confidence matches actual accuracy to within about a quarter of a percentage point.
+
+This number is only meaningful alongside accuracy. The failed first version scored 0.0513 while predicting uniformly, because a model that always says 33% is trivially well calibrated when it is right 33% of the time. Calibration is a claim about honesty, not skill, and it needs an accuracy figure next to it to mean anything.
+
+## Out-of-Distribution Detection
+
+Using epistemic uncertainty as the detection score, the model separates OCT scans from CIFAR-10 images with an **AUROC of 0.9871**. Pick one scan and one natural image at random, and 98.7% of the time the natural image gets the higher uncertainty.
+
+This is the result the project was built to test, and it is best read against the confidence column above. On the same CIFAR-10 images, softmax confidence averages **0.840**. The network is 84% sure about pictures of dogs and aeroplanes. If you trust the softmax output, you deploy a model that is confidently wrong on inputs it has never seen. If you look at epistemic uncertainty instead, the same model flags almost all of those inputs correctly.
+
+Two signals, one model, the same images: one useless, one reliable. That is the argument for decomposing uncertainty rather than reading confidence off the softmax.
+
+## Limitations
+
+The corruption applied to the shifted test set is severe. Accuracy falls to 33.5%, which is chance on three balanced classes, so this set is closer to a second out-of-distribution regime than to a realistic low-quality clinic scan. A graded sweep of corruption severities would show how uncertainty grows with degradation, rather than only showing the extreme.
+
+The OCT2017 dataset also groups multiple scans per patient, and near-perfect test scores are commonly reported on it. A patient-level split would give a stricter estimate of generalisation.
 
 # Conclusion
 
-This project implements a complete framework for uncertainty-aware medical diagnostics: a ViT fine-tuned on real OCT scans with a heteroscedastic head for aleatoric uncertainty and MC Dropout for epistemic uncertainty, evaluated for calibration (ECE), OOD detection (AUROC), and robustness under severe data shift.
+This project implements a complete framework for uncertainty-aware medical diagnostics: a ViT fine-tuned on real OCT scans with a heteroscedastic head for aleatoric uncertainty and MC Dropout for epistemic uncertainty. The trained model reaches 99.6% accuracy on the test split with an ECE of 0.0026, and detects out-of-distribution inputs with an AUROC of 0.9871 using epistemic uncertainty alone, on the same images where softmax confidence stays at 0.840 and gives no warning at all.
 
 Just as importantly, it documents a complete failure-and-recovery cycle. The first version collapsed silently, and the metrics that exposed it — per-class recall, exact-zero variances, coin-flip AUROC — are now built into the training loop as guardrails. In a clinical setting, the difference between a model that is wrong and a model that is *silently* wrong is the whole ballgame; building systems that fail loudly is as much a part of trustworthy ML as the Bayesian machinery itself.
 
