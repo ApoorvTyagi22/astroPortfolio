@@ -6,7 +6,7 @@ date: "10 Jun 2026"
 
 ## Note
 
-This is a condensed version of my BSc dissertation (University of Southampton, Mathematics with Computer Science). Some images may take a while to load on this webpage.
+This is a condensed write-up of a longer research project. Some images may take a while to load on this webpage.
 
 # Introduction
 

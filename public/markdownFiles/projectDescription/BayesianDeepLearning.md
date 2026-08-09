@@ -32,7 +32,7 @@ $$
 \text{Loss} = -\mathbb{E}_{q_\theta(w)} [\log P(D|w)] + \text{KL}(q_\theta(w) || P(w))
 $$
 
-In this project the variational approximation is realised through **Monte Carlo Dropout**: Gal & Ghahramani (2016) showed that training a network with dropout is equivalent to variational inference with a Bernoulli approximate posterior over the weights, and that the KL-to-prior term corresponds to weight decay. This gives the probabilistic grounding of a BNN with the training stability of a standard network — an earlier version of this project used explicit stochastic-weight layers and learned the hard way why that trade-off matters (see *Lessons from a Failed First Version* below).
+In this project the variational approximation is realised through **Monte Carlo Dropout**: Gal & Ghahramani (2016) showed that training a network with dropout is equivalent to variational inference with a Bernoulli approximate posterior over the weights, and that the KL-to-prior term corresponds to weight decay. This gives the probabilistic grounding of a BNN with the training stability of a standard network.
 
 ## Decomposing Uncertainty
 
@@ -45,7 +45,7 @@ Uncertainty in predictions arises from two distinct sources:
 
 ## Data Pipeline
 
-The model trains on the **Kermany et al. OCT2017 dataset** — a public collection of ~84,000 real optical coherence tomography scans — mapped to a clinically meaningful 3-class AMD staging problem: NORMAL → *normal*, DRUSEN → *early AMD* (drusen deposits are the hallmark of early AMD), and CNV → *late AMD* (choroidal neovascularisation, i.e. wet AMD). The DME class is excluded as it is a diabetic pathology rather than an AMD stage. For development without Kaggle credentials, the pipeline falls back to a small synthetic dataset used strictly for smoke-testing.
+The model trains on the **Kermany et al. OCT2017 dataset** — a public collection of ~84,000 real optical coherence tomography scans — mapped to a clinically meaningful 3-class AMD staging problem: NORMAL → _normal_, DRUSEN → _early AMD_ (drusen deposits are the hallmark of early AMD), and CNV → _late AMD_ (choroidal neovascularisation, i.e. wet AMD). The DME class is excluded as it is a diabetic pathology rather than an AMD stage. For development without Kaggle credentials, the pipeline falls back to a small synthetic dataset used strictly for smoke-testing.
 
 To rigorously test uncertainty quantification, the model is evaluated across three distinct regimes:
 
@@ -66,14 +66,14 @@ shifted_transform = transforms.Compose([
 
 ## Architecture
 
-| Component          | Implementation                                                  |
-| :----------------- | :-------------------------------------------------------------- |
-| **Backbone**       | Pretrained `vit_small_patch16_224` (timm formulation)           |
-| **Epistemic**      | MC Dropout applied to extracted ViT features                    |
-| **Aleatoric**      | Heteroscedastic head: per-class logit means and log-variances   |
-| **Outputs**        | 3 Predictive Means ($\mu$), 3 Predictive Variances ($\sigma^2$) |
+| Component     | Implementation                                                  |
+| :------------ | :-------------------------------------------------------------- |
+| **Backbone**  | Pretrained `vit_small_patch16_224` (timm formulation)           |
+| **Epistemic** | MC Dropout applied to extracted ViT features                    |
+| **Aleatoric** | Heteroscedastic head: per-class logit means and log-variances   |
+| **Outputs**   | 3 Predictive Means ($\mu$), 3 Predictive Variances ($\sigma^2$) |
 
-The log-variance head is clamped and initialised near a small constant variance, so early training is dominated by the mean head — standard practice for heteroscedastic models, and one of the stability fixes from the first version. Weight-space regularisation (the KL term of the ELBO) is applied as AdamW weight decay.
+The log-variance head is clamped and initialised near a small constant variance, so early training is dominated by the mean head. This is standard practice for heteroscedastic models and keeps the variance head from destabilising the network before the mean head has learned anything. Weight-space regularisation (the KL term of the ELBO) is applied as AdamW weight decay.
 
 ### Heteroscedastic Classification Loss
 
@@ -93,42 +93,32 @@ The intuition: on ambiguous inputs, the model can lower its expected loss by rai
 
 ## MC Dropout Inference
 
-During evaluation, passing an image through the network $T$ times with dropout re-enabled yields a distribution of predictions. The mean of the softmax outputs is the prediction; their variance across passes is the epistemic uncertainty; the mean predicted $\sigma^2$ is the aleatoric uncertainty. Any non-finite output raises an error immediately rather than being silently masked — a direct lesson from debugging the first version.
-
-# Lessons from a Failed First Version
-
-The first iteration of this project produced a results table that looked superficially plausible — until you read it carefully: identical accuracy on clean and corrupted data, confidence of exactly 0.333 everywhere, epistemic uncertainty of exactly zero, and OOD detection AUROC of 0.5 (a coin flip). Three compounding bugs caused this, and each is a useful cautionary tale:
-
-1. **The data was never real.** The Kaggle download pointed at a placeholder dataset slug, so every run silently fell back to synthetic noise images. Lesson: make fallback paths loud, and check *what* you trained on before believing *how well* you trained.
-2. **The regulariser ate the network.** The "KL divergence proxy" summed the L2 norm of **all** parameters — including the 22M-parameter pretrained backbone — into the loss. The optimiser dutifully shrank the backbone toward zero, collapsing every prediction to uniform. Lesson: regularise in the optimizer (AdamW weight decay), and never L2-penalise pretrained weights toward zero.
-3. **`nan_to_num` hid the crime scene.** Non-finite logits were being replaced with 0.0 at inference, which turned a diverged model into a uniform predictor with *exactly zero* variance across MC passes — hence the "perfect" ECE and the zero epistemic uncertainty. Lesson: never sanitise model outputs silently; fail loudly.
-
-A model that predicts uniformly has trivially low calibration error — which is why ECE should never be read without the accompanying accuracy and per-class recall. The retrained model's per-class recall is now monitored every epoch precisely to catch this failure mode.
+During evaluation, passing an image through the network $T$ times with dropout re-enabled yields a distribution of predictions. The mean of the softmax outputs is the prediction; their variance across passes is the epistemic uncertainty; the mean predicted $\sigma^2$ is the aleatoric uncertainty. Any non-finite output raises an error immediately rather than being silently masked, so a diverged model cannot be mistaken for a confident one.
 
 # Analysis
 
-The model was trained for 5 epochs on 12,000 scans, 4,000 from each class, on an Apple M3. Evaluation uses the held-out OCT2017 test split (726 scans, 242 per class) with 20 MC Dropout passes per image.
+The model was trained for 5 epochs on 12,000 scans, 4,000 from each class, on an Apple M3. Evaluation uses the held-out OCT2017 test split with 20 MC Dropout passes per image.
 
 ## Classification
 
-| Class | Precision | Recall | Support |
-| :--- | ---: | ---: | ---: |
-| normal | 1.00 | 1.00 | 242 |
-| early_amd | 0.99 | 1.00 | 242 |
-| late_amd | 1.00 | 0.99 | 242 |
-| **Overall accuracy** | | **99.6%** | 726 |
+| Class                | Precision |    Recall | Support |
+| :------------------- | --------: | --------: | ------: |
+| normal               |      1.00 |      1.00 |     242 |
+| early_amd            |      0.99 |      1.00 |     242 |
+| late_amd             |      1.00 |      0.99 |     242 |
+| **Overall accuracy** |           | **99.6%** |     726 |
 
-All three classes are classified well. This matters more than the headline number: the earlier version of this model reached 38% by labelling everything "normal", which is what per-class recall exposes and overall accuracy hides.
+All three classes are classified well. Per-class recall matters more than the headline number here, because a model that labelled every scan with the most common class could still post a respectable overall accuracy while being useless in a clinic.
 
 One caveat worth stating. Accuracy on a held-out slice of the training data was 94.8%, lower than the 99.6% on the official test split. The test split is small and was curated by expert graders, so it is cleaner than the training distribution. The 94.8% figure is the more honest estimate of real-world performance.
 
 ## Uncertainty Decomposition
 
-| Regime | Accuracy | Aleatoric | Epistemic | Mean confidence |
-| :--- | ---: | ---: | ---: | ---: |
-| Clean OCT scans | 99.6% | 4.29e-03 | 3.85e-05 | 0.997 |
-| Corrupted OCT scans | 33.5% | 1.88e-02 | 1.58e-02 | 0.676 |
-| CIFAR-10 (OOD) | n/a | 1.10e-01 | 7.41e-03 | 0.840 |
+| Regime              | Accuracy | Aleatoric | Epistemic | Mean confidence |
+| :------------------ | -------: | --------: | --------: | --------------: |
+| Clean OCT scans     |    99.6% |  4.29e-03 |  3.85e-05 |           0.997 |
+| Corrupted OCT scans |    33.5% |  1.88e-02 |  1.58e-02 |           0.676 |
+| CIFAR-10 (OOD)      |      n/a |  1.10e-01 |  7.41e-03 |           0.840 |
 
 Both types of uncertainty behave as the theory says they should. Aleatoric uncertainty rises as the input gets harder to read: 4 times higher on corrupted scans and 26 times higher on natural images. Epistemic uncertainty rises when the input moves away from what the model was trained on: 410 times higher on corrupted scans and 192 times higher on CIFAR-10.
 
@@ -140,7 +130,7 @@ One result looks backwards at first. Epistemic uncertainty is higher on corrupte
 
 The Expected Calibration Error on the clean test set is **0.0026**, meaning predicted confidence matches actual accuracy to within about a quarter of a percentage point.
 
-This number is only meaningful alongside accuracy. The failed first version scored 0.0513 while predicting uniformly, because a model that always says 33% is trivially well calibrated when it is right 33% of the time. Calibration is a claim about honesty, not skill, and it needs an accuracy figure next to it to mean anything.
+This number is only meaningful alongside accuracy. A model that always predicts 33% confidence and is right 33% of the time is perfectly calibrated and completely useless. Calibration is a claim about honesty, not skill, so it needs an accuracy figure next to it to mean anything.
 
 ## Out-of-Distribution Detection
 
@@ -160,6 +150,6 @@ The OCT2017 dataset also groups multiple scans per patient, and near-perfect tes
 
 This project implements a complete framework for uncertainty-aware medical diagnostics: a ViT fine-tuned on real OCT scans with a heteroscedastic head for aleatoric uncertainty and MC Dropout for epistemic uncertainty. The trained model reaches 99.6% accuracy on the test split with an ECE of 0.0026, and detects out-of-distribution inputs with an AUROC of 0.9871 using epistemic uncertainty alone, on the same images where softmax confidence stays at 0.840 and gives no warning at all.
 
-Just as importantly, it documents a complete failure-and-recovery cycle. The first version collapsed silently, and the metrics that exposed it — per-class recall, exact-zero variances, coin-flip AUROC — are now built into the training loop as guardrails. In a clinical setting, the difference between a model that is wrong and a model that is *silently* wrong is the whole ballgame; building systems that fail loudly is as much a part of trustworthy ML as the Bayesian machinery itself.
+The pipeline is also built to fail loudly. Per-class recall is reported every epoch, non-finite outputs raise an error instead of being sanitised, and calibration is never read without the accuracy beside it. In a clinical setting the difference between a model that is wrong and a model that is _silently_ wrong is the whole point, so these guardrails matter as much as the Bayesian machinery itself.
 
 As the NHS digitises to manage immense backlogs, completely autonomous AI is often deemed too risky for frontline diagnostics. The uncertainty-aware approach bridges the gap: it allows safe automation of routine scans while reliably escalating ambiguous or anomalous cases to human specialists. Future work: scaling to higher-resolution scans, temperature scaling on top of the Bayesian estimates, and integrating uncertainty-aware thresholds directly into triage routing.
