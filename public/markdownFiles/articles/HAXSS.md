@@ -1,7 +1,7 @@
 ---
 title: "HAXSS: Hierarchical Reinforcement Learning for XSS Payload Generation"
 subtitle: "Training context-aware agents that craft smarter payloads than traditional scanners"
-date: "11/28/2025"
+date: "28 Nov 2025"
 category: "Reinforcement Learning"
 readTime: "7 min read"
 ---

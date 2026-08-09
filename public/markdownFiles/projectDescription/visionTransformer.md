@@ -1,7 +1,7 @@
 ---
 title: "Vision Transformer for CIFAR10 Classification"
 subtitle: "Classifying the CIFAR10 dataset using a vision transformer model implemented in PyTorch"
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

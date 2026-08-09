@@ -5,11 +5,8 @@ import NavBar from '../components/NavBar.jsx';
 import TypingAnimation from '../components/TypingAnimation.jsx';
 import Skills from '../components/Skills.jsx';
 // Note: In Astro, we use regular <img> and <a> tags.
-// The Image component is built-in for optimization.
-import { Image } from 'astro:assets';
-import profilePic from '../../public/images/profile/profilePic.jpg';
 --- 
-<Layout title="Apoorv's Portfolio" description="A portfolio showcasing web development and machine learning projects.">
+<Layout title="Apoorv Tyagi | Mathematics & Machine Learning" description="Mathematics and machine learning portfolio: Bayesian deep learning, physics-informed neural networks, distributed systems, and research write-ups.">
   
   <NavBar currentPath="/" client:load />
   
@@ -29,9 +26,9 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
             client:visible
           />
           <p class="my-4 text-base font-medium sm:text-sm xs:text-xs text-slate-700 dark:text-slate-300 max-w-2xl sm:max-w-sm text-center leading-relaxed sm:leading-normal">
-            I am a mathematics and computer science student at the University of Southampton with a 
-            strong passion for machine learning and deep learning. I have 
-            gained extensive knowledge in these fields through courses and project development.
+            Mathematics with Computer Science graduate (First Class Honours, University of Southampton),
+            starting an MSc in Computing (AI &amp; Machine Learning) at Imperial College London.
+            I work on machine learning, probabilistic modelling, and the systems that run them.
           </p>
           <div class="flex items-center justify-center mt-2 gap-6 sm:gap-4 xs:gap-3 flex-wrap">
             <a 
@@ -65,52 +62,19 @@ import profilePic from '../../public/images/profile/profilePic.jpg';
       <h1 class="mb-16 sm:mb-8 lg:!text-7xl md:!text-6xl sm:!text-5xl xs:!text-4xl text-center text-slate-800 dark:text-slate-100 font-bold">
         Passion Powers Purpose
       </h1>
-      <!-- Mobile Layout: Heading first, then image, then text -->
-      <div class="md:hidden">
-        <h2 class="mb-6 text-lg font-bold uppercase text-blue-600 dark:text-blue-400 text-center">About Me</h2>
-        
-        <div class="mb-6 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-6 xs:p-4 shadow-xl">
-          <div class="absolute top-0 -right-3 -z-10 w-[102%] h-[103%] rounded-[2rem] bg-blue-200 dark:bg-blue-900"></div>
-          <Image src={profilePic} alt="Apoorv Tyagi" class="w-full h-auto rounded-2xl shadow-lg" />
-        </div>
-        
-        <div class="space-y-4">
-          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-            Hi, I am Apoorv Tyagi, a passionate mathematics and computer science student at the University of Southampton. 
-            I specialize in machine learning and artificial intelligence with a strong foundation in software development to bring AI solutions to life.
-          </p>
-          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-            On this website, you can find a showcase of my projects, ranging from web applications to machine learning 
-            models. I love creating innovative solutions that combine beautiful user interfaces with powerful backend systems.
-          </p>
-          <p class="font-medium text-slate-700 dark:text-slate-300 text-sm leading-relaxed">
-            I look forward to the opportunity to collaborate on exciting projects and contribute to the ever-evolving 
-            world of technology. Feel free to explore my work and get in touch!
-          </p>
-        </div>
-      </div>
-
-      <!-- Desktop/Tablet Layout: Side by side -->
-      <div class="hidden md:grid w-full grid-cols-8 gap-16 lg:gap-8 md:gap-6">
-        <div class="col-span-3 xl:col-span-4 md:col-span-8 md:order-1 relative h-max rounded-2xl border-2 border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 p-8 sm:p-6 shadow-xl">
-          <div class="absolute top-0 -right-3 -z-10 w-[102%] h-[103%] rounded-[2rem] bg-blue-200 dark:bg-blue-900"></div>
-          <Image src={profilePic} alt="Apoorv Tyagi" class="w-full h-auto rounded-2xl shadow-lg" />
-        </div>
-        <div class="col-span-5 xl:col-span-4 md:col-span-8 md:order-2 flex flex-col items-start justify-start">
-          <h2 class="mb-4 text-lg font-bold uppercase text-blue-600 dark:text-blue-400">About Me</h2>
-          <p class="font-medium text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
-            Hi, I am Apoorv Tyagi, a passionate mathematics and computer science student at the University of Southampton. 
-            I specialize in machine learning and artificial intelligence with a strong foundation in software development to bring AI solutions to life.
-          </p>
-          <p class="my-4 font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-            On this website, you can find a showcase of my projects, ranging from web applications to machine learning 
-            models. I love creating innovative solutions that combine beautiful user interfaces with powerful backend systems.
-          </p>
-          <p class="font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
-            I look forward to the opportunity to collaborate on exciting projects and contribute to the ever-evolving 
-            world of technology. Feel free to explore my work and get in touch!
-          </p>
-        </div>
+      <!-- About Me -->
+      <div class="w-full max-w-4xl mx-auto">
+        <h2 class="mb-4 text-lg font-bold uppercase text-blue-600 dark:text-blue-400">About Me</h2>
+        <p class="font-medium text-slate-700 dark:text-slate-300 mb-4 leading-relaxed">
+          Hi, I am Apoorv Tyagi. I hold a BSc in Mathematics with Computer Science from the University of Southampton
+          (First Class Honours) and am starting an MSc in Computing (Artificial Intelligence and Machine Learning) at Imperial College London.
+          I currently work as a software engineer on machine learning and backend systems.
+        </p>
+        <p class="font-medium text-slate-700 dark:text-slate-300 leading-relaxed">
+          My work sits at the intersection of mathematics and machine learning: Bayesian deep learning and uncertainty
+          quantification, physics-informed neural networks, and the distributed systems needed to run models reliably in production.
+          On this site you will find project write-ups with the mathematics included, and blog posts unpacking research papers.
+        </p>
       </div>
       <Skills client:visible />
     </div>

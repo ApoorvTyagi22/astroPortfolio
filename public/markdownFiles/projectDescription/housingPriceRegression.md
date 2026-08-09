@@ -1,7 +1,7 @@
 ---
 title: "Deployment of a Machine Learning pipeline to Predict House Prices using ZenML"
 subtitle: "This project trains and deploys a machine learning pipeline to predict house prices using ZenML"
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

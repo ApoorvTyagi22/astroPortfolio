@@ -106,55 +106,54 @@ const SkillCard = ({ category, skills, icon, color, delay }) => {
 const Skills = () => {
   const skillCategories = [
     {
-      category: "Programming Languages",
-      icon: "💻",
-      color: "#8B5CF6",
-      skills: [
-        { name: "JavaScript", color: "#F7DF1E", level: 91 },
-        { name: "Python", color: "#3776AB", level: 90 },
-        { name: "Java", color: "#007396", level: 80 },
-        { name: "TypeScript", color: "#3178C6", level: 75 },
-        { name: "SQL", color: "#336791", level: 75 },
-        { name: "C++", color: "#00599C", level: 83 },
-      ],
-    },
-    {
-      category: "Backend Development",
-      icon: "⚡",
-      color: "#10B981",
-      skills: [
-        { name: "Node.js", color: "#68A063", level: 85 },
-        { name: "Express.js", color: "#000000", level: 80 },
-        { name: "MongoDB", color: "#47A248", level: 75 },
-        { name: "RESTful APIs", color: "#FF6B6B", level: 82 },
-        { name: "Authentication", color: "#9B59B6", level: 78 },
-        { name: "Database Design", color: "#E67E22", level: 75 },
-      ],
-    },
-    {
-      category: "Frontend Development",
-      icon: "🎨",
-      color: "#3B82F6",
-      skills: [
-        { name: "React.js", color: "#61DAFB", level: 90 },
-        { name: "Next.js", color: "#000000", level: 85 },
-        { name: "HTML5", color: "#E34F26", level: 95 },
-        { name: "CSS3", color: "#1572B6", level: 90 },
-        { name: "Tailwind CSS", color: "#06B6D4", level: 85 },
-        { name: "JavaScript", color: "#F7DF1E", level: 88 },
-      ],
-    },
-    {
       category: "AI & Machine Learning",
       icon: "🤖",
       color: "#F59E0B",
       skills: [
-        { name: "Machine Learning", color: "#FF6F00", level: 82 },
-        { name: "Deep Learning", color: "#FF4757", level: 78 },
-        { name: "TensorFlow", color: "#FF6F00", level: 85 },
-        { name: "PyTorch", color: "#EE4C2C", level: 85 },
-        { name: "Data Analysis", color: "#2ECC71", level: 80 },
-        { name: "Neural Networks", color: "#9B59B6", level: 75 },
+        { name: "PyTorch", color: "#EE4C2C", level: 88 },
+        { name: "Deep Learning", color: "#FF4757", level: 85 },
+        { name: "Computer Vision", color: "#9B59B6", level: 82 },
+        { name: "Uncertainty Quantification", color: "#FF6F00", level: 80 },
+        { name: "TensorFlow", color: "#FF6F00", level: 78 },
+        { name: "NumPy / Pandas", color: "#2ECC71", level: 88 },
+      ],
+    },
+    {
+      category: "Mathematics & Statistics",
+      icon: "📐",
+      color: "#8B5CF6",
+      skills: [
+        { name: "Probability & Statistics", color: "#3776AB", level: 92 },
+        { name: "Statistical Inference", color: "#336791", level: 90 },
+        { name: "Linear Algebra", color: "#00599C", level: 90 },
+        { name: "Stochastic Processes", color: "#9B59B6", level: 80 },
+        { name: "Numerical Methods", color: "#E67E22", level: 78 },
+        { name: "Optimisation", color: "#2ECC71", level: 80 },
+      ],
+    },
+    {
+      category: "Programming Languages",
+      icon: "💻",
+      color: "#10B981",
+      skills: [
+        { name: "Python", color: "#3776AB", level: 90 },
+        { name: "C++", color: "#00599C", level: 85 },
+        { name: "Java", color: "#007396", level: 85 },
+        { name: "TypeScript / JavaScript", color: "#3178C6", level: 82 },
+        { name: "SQL", color: "#336791", level: 75 },
+      ],
+    },
+    {
+      category: "Software Engineering",
+      icon: "⚡",
+      color: "#3B82F6",
+      skills: [
+        { name: "AWS (Lambda, S3)", color: "#FF9900", level: 80 },
+        { name: "REST & GraphQL APIs", color: "#FF6B6B", level: 85 },
+        { name: "Concurrency & Distributed Systems", color: "#68A063", level: 80 },
+        { name: "Docker", color: "#2496ED", level: 78 },
+        { name: "React / Next.js", color: "#61DAFB", level: 85 },
+        { name: "Git & CI/CD", color: "#E34F26", level: 85 },
       ],
     },
   ];
@@ -202,8 +201,8 @@ const Skills = () => {
           Skills
         </h2>
         <p className="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          A comprehensive overview of my technical expertise across different
-          domains of software development and artificial intelligence.
+          Machine learning, mathematics and statistics, and the software
+          engineering to put them into production.
         </p>
       </motion.div>
 
@@ -227,46 +226,6 @@ const Skills = () => {
         ))}
       </motion.div>
 
-      {/* Additional Stats */}
-      <motion.div
-        className="mt-20 max-w-4xl mx-auto"
-        initial={{ opacity: 0, y: 50 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        transition={{ delay: 1, duration: 0.8 }}
-        viewport={{ once: true }}
-      >
-        <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-2xl border border-gray-200 dark:border-gray-700">
-          <h3 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100 mb-8">
-            Learning Journey
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-            <div>
-              <div className="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-2">
-                ~1
-              </div>
-              <div className="text-gray-600 dark:text-gray-400">
-                Year of Experience
-              </div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-green-600 dark:text-green-400 mb-2">
-                10+
-              </div>
-              <div className="text-gray-600 dark:text-gray-400">
-                Projects Completed
-              </div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold text-purple-600 dark:text-purple-400 mb-2">
-                10+
-              </div>
-              <div className="text-gray-600 dark:text-gray-400">
-                Technologies Mastered
-              </div>
-            </div>
-          </div>
-        </div>
-      </motion.div>
     </div>
   );
 };

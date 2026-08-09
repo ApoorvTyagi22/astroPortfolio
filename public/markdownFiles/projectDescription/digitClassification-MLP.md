@@ -1,7 +1,7 @@
 ---
 title: "MultiLayer Perceptron for Dight Recognition using PyTorch"
 subtitle: "Creating a MLP to classify digits in the MNIST dataset. The model has 5 hidden layers and uses batch normalization."
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

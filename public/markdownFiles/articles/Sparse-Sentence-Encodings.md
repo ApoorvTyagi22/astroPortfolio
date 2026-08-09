@@ -1,7 +1,7 @@
 ---
 title: "Learning Sparse Sentence Encodings without Supervision: An Exploration of Sparsity in Variational Autoencoders"
 subtitle: "Unpacking HSVAE to build interpretable sparse vectors for sentences"
-date: "08/16/2025"
+date: "16 Aug 2025"
 category: "Natural Language Processing"
 readTime: "9 min read"
 ---

@@ -1,7 +1,7 @@
 ---
 title: "Backend Of An e-commerce website"
 subtitle: "Building the backend of an ecommerce website using express, and mongoose."
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

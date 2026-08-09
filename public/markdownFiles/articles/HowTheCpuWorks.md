@@ -1,7 +1,7 @@
 ---
 title: "How the Central Processing Unit (CPU) Works in a Computer System"
 subtitle: "An overview of how the central processing unit (CPU) works in a computer system, including the role of the CPU, registers, and different types of memory."
-date: "7/7/2024"
+date: "7 Jul 2024"
 ---
 
 ## Introduction

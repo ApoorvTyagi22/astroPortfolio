@@ -1,7 +1,7 @@
 ---
 title: "Cloudflare Radar Analyst"
 subtitle: "A conversational chat interface for exploring global internet trends and outages using Cloudflare's Radar API and AI."
-date: "13/10/2025"
+date: "13 Oct 2025"
 ---
 
 ## Note

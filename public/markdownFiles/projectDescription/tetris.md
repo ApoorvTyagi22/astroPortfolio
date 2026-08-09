@@ -1,7 +1,7 @@
 ---
 title: "Tetris Game using Java"
 subtitle: "A tile-matching puzzle game created using Java"
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

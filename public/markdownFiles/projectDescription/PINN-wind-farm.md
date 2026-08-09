@@ -1,7 +1,7 @@
 ---
 title: "Physics-Informed Neural Networks for UK Offshore Wind Farm Digital Twin"
 subtitle: "Building a PINN surrogate model regularised by the Navier-Stokes equations to optimise turbine yaw angles for a Dogger Bank-inspired wind farm."
-date: "29/3/2026"
+date: "29 Mar 2026"
 ---
 
 ## Note
@@ -122,7 +122,7 @@ The Adam optimiser explores the loss landscape broadly, while L-BFGS provides se
 
 ## Yaw Optimisation
 
-Instead of using reinforcement learning, the system uses the wake model as a fast evaluator and applies **scipy L-BFGS-B** with bounded constraints to directly find optimal yaw angles:
+The system uses the wake model as a fast evaluator and applies **scipy L-BFGS-B** with bounded constraints to directly find optimal yaw angles (a multi-agent RL controller — MADDPG — is also implemented in the repository as an alternative optimiser, but the classical approach proved faster and more reliable for this problem size):
 
 ```python
 from scipy.optimize import minimize

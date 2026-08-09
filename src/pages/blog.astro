@@ -19,10 +19,10 @@ const articleMeta: Record<string, { readTime: string; category: string }> = {
 
 const defaultMeta = { readTime: '12 min read', category: 'Computer Science' };
 const articleOrder = [
+  'RTB-dynamic-pricing',
   'MEM1Learning',
   'Sparse-Sentence-Encodings',
   'HAXSS',
-  'RTB-dynamic-pricing',
   'devOpsArticle',
   'HowTheCpuWorks',
 ];
@@ -53,24 +53,24 @@ const articles = allArticles
 
 const upcomingArticles = [
   {
-    title: "Advanced React Patterns and Best Practices",
+    title: "Hawkes Processes and the Limit Order Book: Measuring Market Endogeneity",
     date: "Coming Soon",
-    category: "React"
+    category: "Stochastic Processes"
   },
   {
-    title: "Cuda for Machine Learning",
-    date: "Coming Soon", 
+    title: "When Your Bayesian Model Lies: Debugging Silent Uncertainty Collapse",
+    date: "Coming Soon",
+    category: "Bayesian ML"
+  },
+  {
+    title: "CUDA for Machine Learning",
+    date: "Coming Soon",
     category: "AI/ML"
-  },
-  {
-    title: "Building Scalable APIs with Node.js",
-    date: "Coming Soon",
-    category: "Backend"
   }
 ];
 ---
 
-<Layout title="Blog - Apoorv Tyagi" description="Explore articles on web development, DevOps, computer science, and more.">
+<Layout title="Blog - Apoorv Tyagi" description="Articles on machine learning, mathematics, and computer systems: paper write-ups, stochastic processes, reinforcement learning, and more.">
   <NavBar currentPath="/blog" client:load />
   
   <!-- Background Gradient - Fixed to cover full page -->
@@ -87,7 +87,7 @@ const upcomingArticles = [
           client:load
         />
         <p class="text-xl text-gray-600 dark:text-gray-400 max-w-3xl mx-auto">
-          Explore my thoughts on technology, development, and innovation.
+          Paper write-ups and deep dives on machine learning, mathematics, and systems.
         </p>
       </div>
 

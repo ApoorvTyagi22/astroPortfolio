@@ -1,0 +1,65 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NavBar from '../../components/NavBar.jsx';
+import Footer from '../../components/Footer.jsx';
+import MarkdownRenderer from '../../components/MarkdownRenderer.jsx';
+import fs from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
+import matter from 'gray-matter';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+let frontmatter: { title?: string; description?: string; [key: string]: any } = {};
+let content = '';
+
+try {
+  const filePath = join(__dirname, '../../../public/markdownFiles/projectDescription/hawkes-limit-order-book.md');
+  const fileContents = fs.readFileSync(filePath, 'utf8');
+  const { data, content: markdownContent } = matter(fileContents);
+  frontmatter = data;
+  content = markdownContent;
+} catch (error) {
+  console.error('Error reading markdown file:', error);
+  content = 'Error loading content';
+  frontmatter = { title: 'Hawkes Limit Order Book Project' };
+}
+---
+
+<Layout title={frontmatter.title || 'Hawkes Limit Order Book Project'} description={frontmatter.description || 'Modelling the Limit Order Book with an Eight-Variate Hawkes Process'}>
+  <!-- Import KaTeX CSS -->
+  <link slot="head" rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css" integrity="sha384-Xi8rHCmBmhbuyyhbI88391ZKP2dmfnOl4rT9ZfRI7mLTdk1wblIUnrIq35nqwEvC" crossorigin="anonymous">
+  
+  <NavBar currentPath="/projects" client:load />
+  
+  <!-- Project Content with Background Design -->
+  <main class="flex items-center text-dark w-full min-h-screen dark:text-light bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 dark:from-slate-900 dark:via-slate-800 dark:to-slate-700 relative overflow-hidden">
+    <!-- Background Pattern -->
+    <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMzMzMiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PGNpcmNsZSBjeD0iMzAiIGN5PSIzMCIgcj0iMSI+PC9jaXJjbGU+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
+    
+    <div class="w-full relative z-10 py-24">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <article class="bg-blue-50 dark:bg-slate-800 shadow-2xl rounded-2xl overflow-hidden border border-blue-200 dark:border-blue-600">
+          <div class="px-6 py-8 sm:px-8 lg:px-12">
+            <h1 class="text-4xl sm:text-5xl font-bold mb-4 text-center text-blue-800 dark:text-blue-300">
+              {frontmatter.title}
+            </h1>
+            <h2 class="text-2xl sm:text-3xl mb-4 text-center text-blue-600 dark:text-blue-400">
+              {frontmatter.subtitle}
+            </h2>
+            <p class="text-slate-600 dark:text-slate-400 mb-8 text-center text-lg">
+              Published on: {frontmatter.date}
+            </p>
+            <div class="border-t border-blue-200 dark:border-blue-700 mb-8"></div>
+            
+            <MarkdownRenderer content={content} client:load />
+          </div>
+        </article>
+      </div>
+    </div>
+  </main>
+
+  <Footer client:load />
+  
+</Layout>

@@ -1,7 +1,7 @@
 ---
 title: "Real-Time Bidding (RTB) and Dynamic Pricing — Notes"
 subtitle: "How publishers use auctions, reserve prices, and option-style contracts to manage ad inventory"
-date: "11/30/2025"
+date: "30 Nov 2025"
 category: "Stochastic Processes"
 readTime: "8 min read"
 ---

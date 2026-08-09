@@ -11,10 +11,10 @@ const TypingAnimation = ({ className = "" }) => {
   const [showCommand1, setShowCommand1] = useState(false);
   const [showCommand2, setShowCommand2] = useState(false);
 
-  const codeText = 'console.log("Hello World");';
-  const outputText = "Hello World";
-  const command1 = "sudo useradd -m visitor";
-  const command2 = "sudo su - visitor";
+  const codeText = 'print(model.predict(x), model.uncertainty(x))';
+  const outputText = "0.87  +/- 0.12";
+  const command1 = "python train.py --model bayesian-vit";
+  const command2 = "python evaluate.py --ood cifar10";
   const typingSpeed = 120; // milliseconds per character
   const pauseTime = 1000; // pause after typing code before showing output
   const cursorBlinkSpeed = 530; // milliseconds
@@ -206,12 +206,12 @@ const TypingAnimation = ({ className = "" }) => {
       <div className="mt-6 sm:mt-8 text-center space-y-4">
         <div className="bg-white/10 dark:bg-gray-800/50 rounded-lg p-4 sm:p-6 backdrop-blur-sm border border-gray-300 dark:border-gray-600">
           <p className="text-sm sm:text-lg lg:text-xl text-gray-700 dark:text-gray-300 font-mono mb-2">
-            <span className="text-blue-600 dark:text-blue-400">//</span> Welcome
-            to my digital workspace
+            <span className="text-blue-600 dark:text-blue-400">//</span> Mathematics
+            &times; Machine Learning
           </p>
           <p className="text-xs sm:text-sm lg:text-base text-gray-600 dark:text-gray-400 font-mono">
-            <span className="text-green-600 dark:text-green-400">/*</span> Where
-            code meets creativity{" "}
+            <span className="text-green-600 dark:text-green-400">/*</span> Building
+            models that know when they don&apos;t know{" "}
             <span className="text-green-600 dark:text-green-400">*/</span>
           </p>
         </div>

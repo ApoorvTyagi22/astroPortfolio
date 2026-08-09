@@ -1,7 +1,7 @@
 ---
 title: "Java Web Application for Managing an Online Store"
 subtitle: "This project is a java web application that allows my client to manage his online store."
-date: "6/8/2024"
+date: "6 Aug 2024"
 ---
 
 ## Note

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to DevOps and Key Practices"
 subtitle: "A detailed overview of DevOps and its key practices, including Continuous Integration, Continuous Deployment, Testing, Infrastructure as Code, and Configuration Management."
-date: "12/9/2024"
+date: "9 Dec 2024"
 ---
 
 ## Introduction to DevOps

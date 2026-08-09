@@ -15,7 +15,7 @@ import { Image } from 'astro:assets';
 // import javaWebApp from '../../public/Figures/javaWebApp/flowchart.jpg';
 ---
 
-<Layout title="Apoorv Tyagi | Projects" description="Projects showcasing web development and machine learning expertise">
+<Layout title="Apoorv Tyagi | Projects" description="Machine learning research projects (Bayesian deep learning, physics-informed neural networks) and software engineering work.">
   
   <NavBar currentPath="/projects" client:load />
   
@@ -37,6 +37,30 @@ import { Image } from 'astro:assets';
         />
 
         <div class="max-w-6xl mx-auto space-y-12 sm:space-y-8">
+
+        <!-- Section: Research & Machine Learning -->
+        <h2 class="!mt-4 text-2xl sm:text-xl font-bold uppercase tracking-wide text-blue-700 dark:text-blue-400">
+          Research &amp; Machine Learning
+        </h2>
+
+        <!-- Hawkes Limit Order Book Project -->
+        <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-6 sm:p-4 rounded-br-2xl">
+          <div class="absolute top-0 -right-3 -z-10 w-[101%] h-[103%] rounded-[2.5rem] bg-blue-200 dark:bg-blue-900 rounded-br-3xl xs:-right-2 sm:h-[102%] xs:w-full xs:rounded-[1.5rem]"></div>
+          <div class="w-full flex flex-col items-start justify-between pt-4 sm:pt-2">
+            <span class="text-blue-600 dark:text-blue-400 font-medium text-lg sm:text-base">BSc Dissertation</span>
+            <a href="/projects/hawkes-limit-order-book" class="hover:underline underline-offset-2">
+              <h2 class="my-2 w-full text-left text-3xl sm:text-2xl xs:text-xl font-bold text-slate-800 dark:text-slate-100">Modelling the Limit Order Book with an Eight-Variate Hawkes Process</h2>
+            </a>
+            <p class="my-2 font-medium text-slate-700 dark:text-slate-300 text-base sm:text-sm leading-relaxed">
+              An eight-variate Hawkes process calibrated by maximum likelihood to a full day of Apple (AAPL) TAQ top-of-book data. The calibration reveals a strikingly stable near-critical spectral radius of 0.95 across the trading day, and a multitype Galton-Watson cluster decomposition showing that around 95% of top-of-book events are endogenously triggered rather than driven by outside information.
+            </p>
+            <div class="mt-4 flex items-center flex-wrap gap-2">
+              <a href="/projects/hawkes-limit-order-book" class="rounded bg-blue-600 dark:bg-blue-500 text-white p-2 px-4 sm:px-3 text-base sm:text-sm font-semibold hover:bg-blue-700 dark:hover:bg-blue-600 transition-colors">
+                View Project
+              </a>
+            </div>
+          </div>
+        </article>
 
         <!-- Bayesian Deep Learning Project -->
         <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-6 sm:p-4 rounded-br-2xl">
@@ -151,6 +175,11 @@ import { Image } from 'astro:assets';
           </div>
         </article>
 
+
+        <!-- Section: Software & Systems -->
+        <h2 class="!mt-16 text-2xl sm:text-xl font-bold uppercase tracking-wide text-blue-700 dark:text-blue-400">
+          Software &amp; Systems
+        </h2>
 
         <!-- Cloudflare Radar Analyst Project -->
         <article class="w-full flex flex-col justify-between relative rounded-2xl border border-solid border-blue-200 dark:border-blue-600 bg-blue-50 dark:bg-slate-800 shadow-2xl p-6 sm:p-4 rounded-br-2xl">
